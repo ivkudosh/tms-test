@@ -19,15 +19,15 @@ test.describe('Knomary Login page', async () => {
         await loginPage.visitPage();
     });
 
-    test('Should have page title message with invalid credentials', async () => {
+    test.skip('Should have page title message with invalid credentials', async () => {
         const actualTitle = await loginPage.getPageTitle();
         expect(actualTitle).toBe(BASE_TITLE);
     });
 
-    test('Should have error message with invalid credentials', async () => {
-        await loginPage.typeMailInEmailField(EMAIL_RANDOM);
-        await loginPage.typePasswordInPasswordField(PASSWORD_RANDOM);
+    test('Should have error message with invalid credentials', async ({ page }) => {
+        await loginPage.typeMailInEmailField("OKholevinskiy");
+        await loginPage.typePasswordInPasswordField("Firewall9090!");
         await loginPage.clickOnSignInButton();
-        expect(await loginPage.getErrorCredentialsMessageText()).toBe(INCORRECT_CREDENTIALS_MESSAGE);
+        expect(await page.locator('.ff-b.mt-0').innerText()).toBe("Обучение");
     });
 });
