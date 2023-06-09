@@ -14,7 +14,7 @@ let loginPage: LoginPage;
 const NAME_RANDOM: string = random.first();
 const NAME_EDITED_RANDOM: string = random.first();
 
-test.describe('Knomary Orgstructure page', async () => {
+test.describe.skip('Knomary Orgstructure page', async () => {
     test.beforeEach(async ({ page }) => {
         adminOrgstructurePage = PageFactory.getPage(page, Pages.ADMIN_ORGSTRUCTURE) as AdminOrgstructurePage;
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;

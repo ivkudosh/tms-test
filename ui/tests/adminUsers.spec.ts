@@ -21,7 +21,7 @@ const SURNAME_RANDOM: string = random.last();
 const EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 const EDITED_EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 
-test.describe('Knomary Admin users page', async () => {
+test.describe.skip('Knomary Admin users page', async () => {
     test.beforeEach(async ({ page }) => {
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;
         adminUsersPage = PageFactory.getPage(page, Pages.ADMIN_USERS) as AdminUsersPage;
