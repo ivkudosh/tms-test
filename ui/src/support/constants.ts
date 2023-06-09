@@ -1,4 +1,4 @@
-const BASE_URL = "https://tms-features.knomary.dev/auth/login";
+const BASE_URL = "https://edu.fesco.com/auth/login";
 const BASE_TITLE = "Платформа управления обучением";
 const INCORRECT_CREDENTIALS_MESSAGE = "Логин/пароль неверен";
 
