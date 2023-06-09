@@ -19,7 +19,7 @@ test.describe('Knomary Login page', async () => {
         await loginPage.visitPage();
     });
 
-    test.skip('Should have page title message with invalid credentials', async () => {
+    test('Should have page title', async () => {
         const actualTitle = await loginPage.getPageTitle();
         expect(actualTitle).toBe(BASE_TITLE);
     });
