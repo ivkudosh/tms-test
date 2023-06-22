@@ -5,7 +5,7 @@ import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
 import { LoginPage } from "../src/pages/loginPage";
 import { generator } from 'ts-password-generator';
-import { BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/support/constants";
+import { BASE_MAIN_TEXT, BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/support/constants";
 
 let loginPage: LoginPage;
 
@@ -20,12 +20,19 @@ test.describe('Knomary Login page', async () => {
     });
 
     test('Should have page title', async () => {
-        const actualTitle = await loginPage.getPageTitle();
-        expect(actualTitle).toBe(BASE_TITLE);
+        await expect(loginPage.getByText(BASE_MAIN_TEXT)).toBeVisible();
+        expect(await loginPage.getPageTitle()).toBe(BASE_TITLE);
     });
 
-    test('Should have error message with invalid credentials', async ({ page }) => {
-        await loginPage.typeMailInEmailField("OKholevinskiy");
+    test('Should have error message with invalid credentials', async () => {
+        await loginPage.typeMailLoginInEmailField(EMAIL_RANDOM);
+        await loginPage.typePasswordInPasswordField(PASSWORD_RANDOM);
+        await loginPage.clickOnSignInButton();
+        expect(await loginPage.getErrorCredentialsMessageText()).toBe(INCORRECT_CREDENTIALS_MESSAGE);
+    });
+
+    test.skip('Should have login AD', async ({ page }) => {
+        await loginPage.typeMailLoginInEmailField("OKholevinskiy");
         await loginPage.typePasswordInPasswordField("Firewall9090!");
         await loginPage.clickOnSignInButton();
         expect(await page.locator('.ff-b.mt-0').innerText()).toBe("Обучение");

@@ -25,7 +25,7 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { open: 'never', outputFolder: '../assets/playwright-report', outputFile: 'html-report' }],
-  ['allure-playwright', { detail: true, outputFolder: './ui/assets/allure-results' }]],
+  ['allure-playwright', { detail: true, outputFolder: './ui/assets/allure-results', open: "on-failure" }]],
   outputDir: '../assets/playwright-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -33,7 +33,7 @@ export default defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    headless: true,
+    headless: false,
     trace: 'on',
     video: 'on',
     viewport: { width: 1920, height: 1080 }

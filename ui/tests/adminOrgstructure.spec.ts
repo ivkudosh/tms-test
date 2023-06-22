@@ -7,47 +7,47 @@ import { MASTER_PASSWORD, ADMIN_MAIL } from "../src/support/constants";
 import { AdminOrgstructurePage } from "../src/pages/adminOrgstructurePage";
 import { LoginPage } from "../src/pages/loginPage";
 
-
 let adminOrgstructurePage: AdminOrgstructurePage;
 let loginPage: LoginPage;
 
-const NAME_RANDOM: string = random.first();
-const NAME_EDITED_RANDOM: string = random.first();
+const ORGSTRUCTURE_NAME_RANDOM: string = random.first();
+const ORGSTRUCTURE_NAME_EDITED_RANDOM: string = random.first();
 
-test.describe.skip('Knomary Orgstructure page', async () => {
+test.describe('Knomary Orgstructure page', async () => {
     test.beforeEach(async ({ page }) => {
         adminOrgstructurePage = PageFactory.getPage(page, Pages.ADMIN_ORGSTRUCTURE) as AdminOrgstructurePage;
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;
 
         await loginPage.visitPage();
-        await loginPage.typeMailInEmailField(ADMIN_MAIL);
+        await loginPage.typeMailLoginInEmailField(ADMIN_MAIL);
         await loginPage.typePasswordInPasswordField(MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
         await adminOrgstructurePage.clickGuideDropdownListElement();
+        await expect(adminOrgstructurePage.guideDropdownOrgstructureListElement).toBeVisible();
         await adminOrgstructurePage.clickGuideDropdownOrgstructureListElement();
     });
 
     test('Should create orgstructure by admin', async () => {
         await adminOrgstructurePage.clickAddButton();
-        await expect(adminOrgstructurePage.orgstructureNameField).toBeVisible();
-        await adminOrgstructurePage.typeNameOrgstructureNameField(NAME_RANDOM);
-        await adminOrgstructurePage.clickSaveOrgstructureButton();
-        expect(await adminOrgstructurePage.getNameOrgstructureElement(NAME_RANDOM)).toContain(NAME_RANDOM);
+        await expect(adminOrgstructurePage.nameFieldModalWindow).toBeVisible();
+        await adminOrgstructurePage.typeNameInNameFieldModalWindow(ORGSTRUCTURE_NAME_RANDOM);
+        await adminOrgstructurePage.clickSaveButtonModal();
+        expect(await adminOrgstructurePage.getNameOrgstructureElement(ORGSTRUCTURE_NAME_RANDOM)).toContain(ORGSTRUCTURE_NAME_RANDOM);
     });
 
     test('Should edit orgstructure name by admin', async () => {
-        await adminOrgstructurePage.clickEditOrgstructureButton(NAME_RANDOM);
-        await expect(adminOrgstructurePage.editOrgstructureNameField).toBeVisible();
-        await adminOrgstructurePage.clearOrgstructureNameField();
-        await adminOrgstructurePage.typeNewNameOrgstructureNameField(NAME_EDITED_RANDOM);
-        await adminOrgstructurePage.clickSaveOrgstructureButton();
-        expect(await adminOrgstructurePage.getNameOrgstructureElement(NAME_EDITED_RANDOM)).toContain(NAME_EDITED_RANDOM);
+        await adminOrgstructurePage.clickEditOrgstructureButton(ORGSTRUCTURE_NAME_RANDOM);
+        await expect(adminOrgstructurePage.filledNameFieldModalWindow).toBeVisible();
+        await adminOrgstructurePage.clearNameFieldModalWindow();
+        await adminOrgstructurePage.typeNewNameInNameFieldModalWindow(ORGSTRUCTURE_NAME_EDITED_RANDOM);
+        await adminOrgstructurePage.clickSaveButtonModal();
+        expect(await adminOrgstructurePage.getNameOrgstructureElement(ORGSTRUCTURE_NAME_EDITED_RANDOM)).toContain(ORGSTRUCTURE_NAME_EDITED_RANDOM);
     });
 
     test('Should delete orgstructure by admin', async () => {
-        await adminOrgstructurePage.clickDeleteOrgstructureButton(NAME_EDITED_RANDOM);
+        await adminOrgstructurePage.clickDeleteOrgstructureButton(ORGSTRUCTURE_NAME_EDITED_RANDOM);
         await expect(adminOrgstructurePage.yesButton).toBeVisible();
         await adminOrgstructurePage.clickYesButton();
-        await expect(adminOrgstructurePage.nameOrgstructureElement(NAME_RANDOM)).toBeHidden();
+        await expect(adminOrgstructurePage.nameOrgstructureElement(ORGSTRUCTURE_NAME_RANDOM)).toBeHidden();
     });
 });

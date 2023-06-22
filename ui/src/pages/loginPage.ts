@@ -3,7 +3,7 @@ import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
 
 export class LoginPage extends BasePage {
-    private readonly emailField: Locator;
+    public readonly emailField: Locator;
     private readonly passwordField: Locator;
     private readonly signInButton: Locator;
     private readonly errorCredentialsElement: Locator;
@@ -17,7 +17,7 @@ export class LoginPage extends BasePage {
         this.errorCredentialsElement = page.locator('div[class="fix_send js-fix_send"] > div > p > p');
     }
 
-    public async typeMailInEmailField(mail: string): Promise<void> {
+    public async typeMailLoginInEmailField(mail: string): Promise<void> {
         await this.emailField.type(mail);
     }
 

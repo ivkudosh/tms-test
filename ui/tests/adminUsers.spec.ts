@@ -21,13 +21,13 @@ const SURNAME_RANDOM: string = random.last();
 const EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 const EDITED_EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
 
-test.describe.skip('Knomary Admin users page', async () => {
+test.describe('Knomary Admin users page', async () => {
     test.beforeEach(async ({ page }) => {
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;
         adminUsersPage = PageFactory.getPage(page, Pages.ADMIN_USERS) as AdminUsersPage;
 
         await loginPage.visitPage();
-        await loginPage.typeMailInEmailField(ADMIN_MAIL);
+        await loginPage.typeMailLoginInEmailField(ADMIN_MAIL);
         await loginPage.typePasswordInPasswordField(MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
     });
@@ -56,7 +56,7 @@ test.describe.skip('Knomary Admin users page', async () => {
         await adminUsersPage.clickFirstCheckboxUserElement();
         await adminUsersPage.clickEditButton();
         await expect(adminUsersPage.emailEditField).toBeVisible();
-        await adminUsersPage.clearEmailInEmailField();
+        await adminUsersPage.clearEmailField();
         await adminUsersPage.typeNewEmailInEmailField(EDITED_EMAIL_RANDOM);
         await adminUsersPage.clickSaveEditModalWindowButton();
         await expect(adminUsersPage.editUserButton).toBeHidden();

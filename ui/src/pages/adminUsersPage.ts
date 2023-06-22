@@ -121,7 +121,7 @@ export class AdminUsersPage extends BasePage {
         await this.editUserButton.click();
     }
 
-    public async clearEmailInEmailField(): Promise<void> {
+    public async clearEmailField(): Promise<void> {
         await this.emailEditField.clear();
     }
 
