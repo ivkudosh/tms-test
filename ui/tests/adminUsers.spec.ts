@@ -7,8 +7,8 @@ import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
 import { LoginPage } from "../src/pages/loginPage";
-import { MASTER_PASSWORD, ADMIN_MAIL } from "../src/support/constants";
 import { AdminUsersPage } from "../src/pages/adminUsersPage";
+import ENV from "../src/support/environment/env";
 
 dayjs.extend(dayjsRandom);
 const DATE_RANDOM = dayjs.between('01/01/1950', '01/01/2030').format('DD/MM/YYYY');
@@ -27,8 +27,8 @@ test.describe('Knomary Admin users page', async () => {
         adminUsersPage = PageFactory.getPage(page, Pages.ADMIN_USERS) as AdminUsersPage;
 
         await loginPage.visitPage();
-        await loginPage.typeMailLoginInEmailField(ADMIN_MAIL);
-        await loginPage.typePasswordInPasswordField(MASTER_PASSWORD);
+        await loginPage.typeMailLoginInEmailField(ENV.ADMIN_MAIL);
+        await loginPage.typePasswordInPasswordField(ENV.MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
     });
 

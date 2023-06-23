@@ -1,13 +1,13 @@
 import { BasePage } from "./basePage";
-import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
+import ENV from "../support/environment/env";
 
 export class AdminOrgstructurePage extends BasePage {
     public readonly yesButton: Locator;
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = `${BASE_URL}/admin/kpi/structure/orgStructure`;
+        this.url = `${ENV.BASE_URL}/admin/kpi/structure/orgStructure`;
         this.yesButton = page.locator('.modal-dialog .modal-content .modal-footer #btn-delete-element-org-structure');
     }
 

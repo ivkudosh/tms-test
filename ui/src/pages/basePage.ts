@@ -11,6 +11,7 @@ export class BasePage {
     public readonly nameFieldModalWindow: Locator;
     public readonly filledNameFieldModalWindow: Locator;
     private readonly checkboxElement: Locator;
+    public readonly nothingFoundTitle: Locator;
 
     constructor(protected readonly page: Page) {
         this.selectButton = page.locator('button[type="submit"]', { hasText: "Выбрать" });
@@ -22,6 +23,7 @@ export class BasePage {
         this.nameFieldModalWindow = page.locator('.modal-dialog .modal-content .modal-body .form-group input[name="name"]');
         this.filledNameFieldModalWindow = page.locator('.modal-dialog .modal-content .modal-body .form-group input[name="name"][value]');
         this.checkboxElement = page.locator(".checkbox .i-checks");
+        this.nothingFoundTitle = page.locator(".nothing_found_title");
     }
 
     public async visitPage(): Promise<void> {
@@ -78,5 +80,9 @@ export class BasePage {
 
     public async typeNewNameInNameFieldModalWindow(name: string): Promise<void> {
         await this.filledNameFieldModalWindow.type(name);
+    }
+
+    public async waitForTimeout(time: number): Promise<void> {
+        await this.page.waitForTimeout(time);
     }
 }

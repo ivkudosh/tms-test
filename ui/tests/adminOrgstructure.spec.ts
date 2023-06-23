@@ -3,9 +3,9 @@ const random = require('random-name');
 import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
-import { MASTER_PASSWORD, ADMIN_MAIL } from "../src/support/constants";
 import { AdminOrgstructurePage } from "../src/pages/adminOrgstructurePage";
 import { LoginPage } from "../src/pages/loginPage";
+import ENV from "../src/support/environment/env";
 
 let adminOrgstructurePage: AdminOrgstructurePage;
 let loginPage: LoginPage;
@@ -19,8 +19,8 @@ test.describe('Knomary Orgstructure page', async () => {
         loginPage = PageFactory.getPage(page, Pages.LOG_IN) as LoginPage;
 
         await loginPage.visitPage();
-        await loginPage.typeMailLoginInEmailField(ADMIN_MAIL);
-        await loginPage.typePasswordInPasswordField(MASTER_PASSWORD);
+        await loginPage.typeMailLoginInEmailField(ENV.ADMIN_MAIL);
+        await loginPage.typePasswordInPasswordField(ENV.MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
         await adminOrgstructurePage.clickGuideDropdownListElement();
         await expect(adminOrgstructurePage.guideDropdownOrgstructureListElement).toBeVisible();

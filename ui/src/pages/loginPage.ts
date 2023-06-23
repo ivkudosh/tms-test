@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
-import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
+import ENV from "../support/environment/env";
 
 export class LoginPage extends BasePage {
     public readonly emailField: Locator;
@@ -10,7 +10,7 @@ export class LoginPage extends BasePage {
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = BASE_URL;
+        this.url = ENV.BASE_URL;
         this.emailField = page.locator('#identitys');
         this.passwordField = page.locator('#password');
         this.signInButton = page.locator('//button[@type="submit"]', { hasText: "Войти" });

@@ -1,7 +1,6 @@
 import { BasePage } from "./basePage";
-import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
-
+import ENV from "../support/environment/env";
 export class AdminPositionsPage extends BasePage {
     public readonly createdPositionElement: Locator;
     public readonly secondPositionElement: Locator;
@@ -12,7 +11,7 @@ export class AdminPositionsPage extends BasePage {
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = `${BASE_URL}/admin/kpi/structure/positions`;
+        this.url = `${ENV.BASE_URL}/admin/kpi/structure/positions`;
         this.createdPositionElement = page.locator("#positions #allUsers #allPositionsBody tr:nth-child(1) td:nth-child(2)");
         this.secondPositionElement = page.locator("#positions #allUsers #allPositionsBody tr:nth-child(2) td:nth-child(2)");
         this.searchField = page.locator(".form-control.filter-input-position");

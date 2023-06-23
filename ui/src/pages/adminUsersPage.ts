@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
-import { BASE_URL } from "../support/constants";
 import { Locator, Page } from "@playwright/test";
+import ENV from "../support/environment/env";
 
 export class AdminUsersPage extends BasePage {
     public readonly addUserModalWindow: Locator;
@@ -34,7 +34,7 @@ export class AdminUsersPage extends BasePage {
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = `${BASE_URL}/admin/kpi/structure`;
+        this.url = `${ENV.BASE_URL}/admin/kpi/structure`;
         this.addUserModalWindow = page.locator('#add-student .modal-dialog');
         this.nameField = page.locator('.form-group input[name="first_name"]');
         this.surnameField = page.locator('.form-group input[name="second_name"]');

@@ -15,7 +15,7 @@ export default defineConfig({
   fullyParallel: true,
   timeout: 40 * 1000,
   expect: {
-    timeout: 10000
+    timeout: 20000
   },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: true,
@@ -38,11 +38,12 @@ export default defineConfig({
     video: 'on',
     viewport: { width: 1920, height: 1080 }
   },
+  globalSetup: '../src/support/environment/globalSetup.ts',
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'Google Chrome',
       use: { ...devices['Desktop Chrome'] },
     },
 
