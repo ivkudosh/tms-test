@@ -30,11 +30,4 @@ test.describe('Knomary Login page', async () => {
         await loginPage.clickOnSignInButton();
         expect(await loginPage.getErrorCredentialsMessageText()).toBe(INCORRECT_CREDENTIALS_MESSAGE);
     });
-
-    test.skip('Should have login AD', async ({ page }) => {
-        await loginPage.typeMailLoginInEmailField("OKholevinskiy");
-        await loginPage.typePasswordInPasswordField("Firewall9090!");
-        await loginPage.clickOnSignInButton();
-        expect(await page.locator('.ff-b.mt-0').innerText()).toBe("Обучение");
-    });
 });
