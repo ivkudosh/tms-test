@@ -62,7 +62,7 @@ export class BasePage {
         await this.saveButtonModalWindow.click();
     }
 
-    public getByText(nameText: string) {
+    public getByText(nameText: string): Locator {
         return this.page.getByText(nameText);
     }
 
