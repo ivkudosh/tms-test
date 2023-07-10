@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const random = require('random-name');
-const emails = require('email-generator');
-const dayjs = require('dayjs');
-const dayjsRandom = require('dayjs-random');
+import { faker } from '@faker-js/faker';
 import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
@@ -10,16 +6,14 @@ import { LoginPage } from "../src/pages/loginPage";
 import { AdminUsersPage } from "../src/pages/adminUsersPage";
 import ENV from "../src/support/environment/env";
 
-dayjs.extend(dayjsRandom);
-const DATE_RANDOM = dayjs.between('01/01/1950', '01/01/2030').format('DD/MM/YYYY');
-
 let loginPage: LoginPage;
 let adminUsersPage: AdminUsersPage;
 
-const NAME_RANDOM: string = random.first();
-const SURNAME_RANDOM: string = random.last();
-const EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
-const EDITED_EMAIL_RANDOM: string = emails.generateEmail().replace(/"/g, "");
+const DATE_RANDOM: string = faker.date.between({ from: '1950-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z' }).toLocaleDateString().replace(/\./g, '/');
+const NAME_RANDOM: string = faker.person.firstName();
+const SURNAME_RANDOM: string = faker.person.lastName();
+const EMAIL_RANDOM: string = faker.internet.email();
+const EDITED_EMAIL_RANDOM: string = faker.internet.email();
 
 test.describe('Knomary Admin users page', async () => {
     test.beforeEach(async ({ page }) => {

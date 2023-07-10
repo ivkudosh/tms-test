@@ -4,6 +4,8 @@ import { LoginPage } from "./loginPage";
 import { AdminUsersPage } from "./adminUsersPage";
 import { AdminOrgstructurePage } from "./adminOrgstructurePage";
 import { AdminPositionsPage } from "./adminPositionsPage";
+import { AdminGroupsPage } from "./adminGroupsPage";
+import { AdminSubordinationPage } from "./adminSubordinationPage";
 
 export class PageFactory {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -16,6 +18,10 @@ export class PageFactory {
                 return new AdminUsersPage(page);
             case Pages.ADMIN_ORGSTRUCTURE:
                 return new AdminOrgstructurePage(page);
+            case Pages.ADMIN_GROUPS:
+                return new AdminSubordinationPage(page);
+            case Pages.ADMIN_SUBORDINATION:
+                return new AdminGroupsPage(page);
             case Pages.ADMIN_POSITIONS:
                 return new AdminPositionsPage(page);
             default:

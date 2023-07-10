@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const random = require('random-name');
+import { faker } from '@faker-js/faker';
 import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
@@ -10,8 +9,8 @@ import ENV from "../src/support/environment/env";
 let loginPage: LoginPage;
 let adminPositionsPage: AdminPositionsPage;
 
-const POSITION_NAME_RANDOM: string = random.first();
-const POSITION_NAME_EDITED_RANDOM: string = random.first();
+const POSITION_NAME_RANDOM: string = faker.person.jobType();
+const POSITION_NAME_EDITED_RANDOM: string = faker.person.jobType();
 
 test.describe('Knomary Positions page', async () => {
     test.beforeEach(async ({ page }) => {
@@ -22,6 +21,7 @@ test.describe('Knomary Positions page', async () => {
         await loginPage.typeMailLoginInEmailField(ENV.ADMIN_MAIL);
         await loginPage.typePasswordInPasswordField(ENV.MASTER_PASSWORD);
         await loginPage.clickOnSignInButton();
+        await expect(adminPositionsPage.guideDropdownListElement).toBeVisible();
         await adminPositionsPage.clickGuideDropdownListElement();
         await expect(adminPositionsPage.guideDropdownPositionsListElement).toBeVisible();
         await adminPositionsPage.clickGuideDropdownPositionsListElement();

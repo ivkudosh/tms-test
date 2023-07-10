@@ -1,6 +1,7 @@
 import { BasePage } from "./basePage";
 import { Locator, Page } from "@playwright/test";
 import ENV from "../support/environment/env";
+
 export class AdminPositionsPage extends BasePage {
     public readonly createdPositionElement: Locator;
     public readonly secondPositionElement: Locator;

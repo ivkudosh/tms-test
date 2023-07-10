@@ -10,7 +10,7 @@ export class LoginPage extends BasePage {
 
     constructor(protected readonly page: Page) {
         super(page);
-        this.url = ENV.BASE_URL;
+        this.url = `${ENV.BASE_URL}/auth/login`;
         this.emailField = page.locator('#identitys');
         this.passwordField = page.locator('#password');
         this.signInButton = page.locator('//button[@type="submit"]', { hasText: "Войти" });

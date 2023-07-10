@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const random = require('random-name');
+import { faker } from '@faker-js/faker';
 import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/support/types";
@@ -10,8 +9,8 @@ import ENV from "../src/support/environment/env";
 let adminOrgstructurePage: AdminOrgstructurePage;
 let loginPage: LoginPage;
 
-const ORGSTRUCTURE_NAME_RANDOM: string = random.first();
-const ORGSTRUCTURE_NAME_EDITED_RANDOM: string = random.first();
+const ORGSTRUCTURE_NAME_RANDOM: string = faker.company.buzzNoun();
+const ORGSTRUCTURE_NAME_EDITED_RANDOM: string = faker.company.buzzNoun();
 
 test.describe('Knomary Orgstructure page', async () => {
     test.beforeEach(async ({ page }) => {

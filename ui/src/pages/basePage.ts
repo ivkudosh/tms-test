@@ -4,7 +4,7 @@ export class BasePage {
     protected url!: string;
     protected readonly selectButton: Locator;
     protected readonly addButton: Locator;
-    protected readonly guideDropdownListElement: Locator;
+    public readonly guideDropdownListElement: Locator;
     public readonly guideDropdownOrgstructureListElement: Locator;
     public readonly guideDropdownPositionsListElement: Locator;
     protected readonly saveButtonModalWindow: Locator;
