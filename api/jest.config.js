@@ -1,12 +1,13 @@
 module.exports = {
-    testMatch: ["**/api/jest-tests/*spec.ts"],
+    testMatch: ["**/api/tests/*spec.ts"],
     preset: "ts-jest",
     testEnvironment: 'node',
+    globalSetup: '../environment/globalSetup.ts',
     reporters: [
         "default", [
             "jest-html-reporter", {
-                "outputPath": "api/assets/api-tests-report.html",
-                "pageTitle": "Unit Tests",
+                "outputPath": `api/assets/api-tests-report-${process.env.test_env || 'test'}.html`,
+                "pageTitle": "API Tests",
                 "includeFailureMsg": true
             }
         ],

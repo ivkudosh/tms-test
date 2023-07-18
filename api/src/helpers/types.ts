@@ -4,10 +4,4 @@ type Post = {
     userId: number;
 }
 
-type Params = {
-    min: number;
-    max: number;
-    integer: boolean;
-}
-
-export { Post, Params };
+export { Post };
