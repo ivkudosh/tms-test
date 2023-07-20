@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { Pages } from "../support/types";
+import { Pages } from "../helpers/types";
 import { LoginPage } from "./loginPage";
 import { AdminUsersPage } from "./adminUsersPage";
 import { AdminOrgstructurePage } from "./adminOrgstructurePage";

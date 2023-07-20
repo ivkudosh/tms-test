@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { test, expect } from "@playwright/test";
 import { PageFactory } from "../src/pages/pageFactory";
-import { Pages } from "../src/support/types";
+import { Pages } from "../src/helpers/types";
 import { AdminPositionsPage } from "../src/pages/adminPositionsPage";
 import { LoginPage } from "../src/pages/loginPage";
 import ENV from "../../environment/env";
