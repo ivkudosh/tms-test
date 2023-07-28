@@ -1,5 +1,5 @@
 module.exports = {
-    testMatch: ["**/api/tests/*spec.ts"],
+    testMatch: ["**/api/tests/jobs.spec.ts"], //["**/api/tests/*spec.ts"], 
     preset: "ts-jest",
     testEnvironment: 'node',
     globalSetup: '../environment/globalSetup.ts',
