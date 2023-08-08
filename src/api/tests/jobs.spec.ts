@@ -1,18 +1,14 @@
 import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
-import ENV from "../../environment/env";
-import { faker } from "@faker-js/faker";
 import * as cheerio from 'cheerio';
+import { JOB_NAME_RANDOM, EDITED_JOB_NAME_RANDOM } from "../helpers/randoms";
+import ENV from "../../../env/env";
 
 const superagent = request.agent();
 
 let response: Response;
 
-let JOB_ID: string;
-const JOB_NAME_RANDOM: string = faker.person.jobDescriptor();
-const EDITED_JOB_NAME_RANDOM: string = faker.person.jobType();
-
-describe("Авторизация", () => {
+describe("Авторизация для должности", () => {
     test(`Logout`, async () => {
         try {
             response = await superagent.get(`${ENV.BASE_URL}/auth/logout`);
@@ -52,6 +48,7 @@ describe("Авторизация", () => {
             throw new Error(error.message);
         }
         expect(response.status).toBe(200);
+        expect(response.text).toContain("Википедия");
     });
 });
 
@@ -137,6 +134,8 @@ describe("Создание должности", () => {
         }
         const $ = cheerio.load(response.text);
         JOB_ID = $(`#allUsers #allPositionsBody tr td .settings-row .show-edit-position-modal[data-name="${JOB_NAME_RANDOM}"]`).attr('data-id');
+        JOB_NAME = $(`#allUsers #allPositionsBody tr td .settings-row .show-edit-position-modal[data-name="${JOB_NAME_RANDOM}"]`).attr('data-name');
+
         expect(response.status).toBe(200);
         expect(response.text).toContain(JOB_NAME_RANDOM);
     });
@@ -164,4 +163,7 @@ describe("Создание должности", () => {
         expect(response.status).toBe(200);
         expect(JSON.parse(response.text).success).toBe(`Должность ${EDITED_JOB_NAME_RANDOM} отредактирована`);
     });
+
 });
+
+export { JOB_NAME };

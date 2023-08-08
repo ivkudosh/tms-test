@@ -4,7 +4,7 @@ import { PageFactory } from "../src/pages/pageFactory";
 import { Pages } from "../src/helpers/types";
 import { LoginPage } from "../src/pages/loginPage";
 import { AdminUsersPage } from "../src/pages/adminUsersPage";
-import ENV from "../../environment/env";
+import ENV from '../../../env/env';
 
 let loginPage: LoginPage;
 let adminUsersPage: AdminUsersPage;

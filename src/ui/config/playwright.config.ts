@@ -25,7 +25,7 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { open: 'never', outputFolder: `../assets/playwright-report-${process.env.test_env || 'test'}`, outputFile: `html-report-${process.env.test_env || 'test'}` }],
-  ['allure-playwright', { detail: true, outputFolder: `./ui/assets/allure-results-${process.env.test_env || 'test'}` }]],
+  ['allure-playwright', { detail: true, outputFolder: `./src/ui/assets/allure-results-${process.env.test_env || 'test'}` }]],
   outputDir: `../assets/playwright-results-${process.env.test_env || 'test'}`,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -38,7 +38,7 @@ export default defineConfig({
     video: 'on',
     viewport: { width: 1920, height: 1080 }
   },
-  globalSetup: '../../environment/globalSetup.ts',
+  globalSetup: '../../../env/globalSetup.ts',
 
   /* Configure projects for major browsers */
   projects: [

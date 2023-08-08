@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "api:features:test": "rm -rf api/assets && cross-env test_env=tms-features jest --config='./api/jest.config.js'",
-    "ui:features:test": "rm -rf ui/assets/allure-results-tms-test && rm -rf ui/assets/allure-report-tms-test && cross-env test_env=tms-test playwright test --config=./ui/config/playwright.config.ts",
-    "ui:features:test:report": "allure generate ui/assets/allure-results-tms-test --clean -o ui/assets/allure-report-tms-test && allure open ui/assets/allure-report-tms-test",
-    "ui:features:prod": "rm -rf ui/assets/allure-results-tms-features && rm -rf ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./ui/config/playwright.config.ts",
-    "ui:features:prod:report": "allure generate ui/assets/allure-results-tms-features --clean -o ui/assets/allure-report-tms-features && allure open ui/assets/allure-report-tms-features"
+    "api:features:test": "rm -rf src/api/assets && cross-env test_env=tms-features jest --config='./src/api/jest.config.js'",
+    "ui:features:test": "rm -rf src/ui/assets/allure-results-tms-test && rm -rf src/ui/assets/allure-report-tms-test && cross-env test_env=tms-test playwright test --config=./src/ui/config/playwright.config.ts",
+    "ui:features:test:report": "allure generate src/ui/assets/allure-results-tms-test --clean -o src/ui/assets/allure-report-tms-test && allure open src/ui/assets/allure-report-tms-test",
+    "ui:features:prod": "rm -rf src/ui/assets/allure-results-tms-features && rm -rf src/ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./src/ui/config/playwright.config.ts",
+    "ui:features:prod:report": "allure generate src/ui/assets/allure-results-tms-features --clean -o src/ui/assets/allure-report-tms-features && allure open src/ui/assets/allure-report-tms-features"
   },
   "repository": {
     "type": "git",
