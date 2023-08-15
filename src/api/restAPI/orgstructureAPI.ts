@@ -24,7 +24,7 @@ export class OrgstructureAPI extends BaseAPI {
         }
     };
 
-    editOrgstructureRequest = (orgstructureId: string, editedOrgstructureName: string) => {
+    editOrgstructureNameRequest = (orgstructureId: string, editedOrgstructureName: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editOrgStructureElement`)
                 .set(requestHeader)

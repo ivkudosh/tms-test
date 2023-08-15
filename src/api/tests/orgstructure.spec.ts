@@ -8,8 +8,8 @@ import { AuthorizationAPI } from "../restAPI/authorizationAPI";
 
 const superagent = request.agent();
 
-const orgstructureAPI = new OrgstructureAPI(superagent);
 const authorizationAPI = new AuthorizationAPI(superagent);
+const orgstructureAPI = new OrgstructureAPI(superagent);
 
 describe("Оргструктура", () => {
     let orgstructureCreationResponse: Response;
@@ -43,7 +43,7 @@ describe("Оргструктура", () => {
     test(`Редактирование оргструктуры`, async () => {
         const editedOrgstructureName: string = generateOrgstructureName();
 
-        const editOrgstructureResponse = await orgstructureAPI.editOrgstructureRequest(orgstructureId, editedOrgstructureName);
+        const editOrgstructureResponse = await orgstructureAPI.editOrgstructureNameRequest(orgstructureId, editedOrgstructureName);
 
         expect(editOrgstructureResponse.status).toBe(200);
         expect(JSON.parse(editOrgstructureResponse.text).success).toBe(`Элемент оргструктуры ${editedOrgstructureName} успешно отредактирован`);
