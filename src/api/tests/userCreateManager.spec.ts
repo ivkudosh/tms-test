@@ -4,7 +4,7 @@ import ENV from "../../environment/env";
 import { faker } from "@faker-js/faker";
 import * as cheerio from 'cheerio';
 import { ORG_ID } from "./orgstructure.spec";
-import { JOB_NAME } from "./jobs.spec";
+import { JOB_NAME } from "./job.spec";
 import { genPassword } from "../helpers/generatePassword";
 import { USER_NAME_RANDOM, USER_SECOND_NAME_RANDOM, DATE_RANDOM, USER_EMAIL_RANDOM, USER_PASSWORD_RANDOM } from "../helpers/randoms";
 

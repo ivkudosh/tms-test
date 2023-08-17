@@ -15,14 +15,14 @@ describe("Оргструктура", () => {
     let orgstructureCreationResponse: Response;
     let orgstructureId: string;
 
-    const orgstructureName: string = generateOrgstructureName();
+    const orgstructureRandomName: string = generateOrgstructureName();
 
     beforeAll(async () => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
-            orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureName);
+            orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);
             const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
-            orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureName);
+            orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
         } catch (error: any) {
             throw new Error(error.message);
         }
@@ -30,31 +30,31 @@ describe("Оргструктура", () => {
 
     test(`Создание оргструктуры`, async () => {
         expect(orgstructureCreationResponse.status).toBe(200);
-        expect(JSON.parse(orgstructureCreationResponse.text).success).toEqual(`Элемент оргструктуры ${orgstructureName} успешно добавлен`);
+        expect(JSON.parse(orgstructureCreationResponse.text).success).toEqual(`Элемент оргструктуры ${orgstructureRandomName} успешно добавлен`);
     });
 
     test(`Проверка получения оргструктуры`, async () => {
         const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
 
         expect(orgstructureResponse.status).toBe(200);
-        expect(orgstructureResponse.text).toContain(orgstructureName);
+        expect(orgstructureResponse.text).toContain(orgstructureRandomName);
     });
 
     test(`Редактирование оргструктуры`, async () => {
-        const editedOrgstructureName: string = generateOrgstructureName();
+        const editedOrgstructureRandomName = generateOrgstructureName();
 
-        const editOrgstructureResponse = await orgstructureAPI.editOrgstructureNameRequest(orgstructureId, editedOrgstructureName);
+        const editOrgstructureResponse = await orgstructureAPI.editOrgstructureNameRequest(orgstructureId, editedOrgstructureRandomName);
 
         expect(editOrgstructureResponse.status).toBe(200);
-        expect(JSON.parse(editOrgstructureResponse.text).success).toBe(`Элемент оргструктуры ${editedOrgstructureName} успешно отредактирован`);
+        expect(JSON.parse(editOrgstructureResponse.text).success).toBe(`Элемент оргструктуры ${editedOrgstructureRandomName} успешно отредактирован`);
     });
 
     test(`Удаление оргструктуры`, async () => {
-        const deletedOrgstructureName = generateOrgstructureName();
+        const deletedOrgstructureRandomName = generateOrgstructureName();
 
-        await orgstructureAPI.createOrgstructureRequest(deletedOrgstructureName);
+        await orgstructureAPI.createOrgstructureRequest(deletedOrgstructureRandomName);
         const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
-        const orgstructureIdForDelete = getOrgstructureIdFromResponse(orgstructureResponse, deletedOrgstructureName);
+        const orgstructureIdForDelete = getOrgstructureIdFromResponse(orgstructureResponse, deletedOrgstructureRandomName);
 
         const deleteOrgstructureResponse = await orgstructureAPI.deleteOrgstructureRequest(orgstructureIdForDelete);
 

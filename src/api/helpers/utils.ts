@@ -5,3 +5,14 @@ export const getOrgstructureIdFromResponse = (response: Response, orgstructureNa
     const $ = cheerio.load(response.text);
     return $(`.panel.${orgstructureName}.first-level.panel-hide-or-show .panel-heading .panel-title.row a small`).text().replace(/\/\s*id:\s*/, "");
 };
+
+
+export const getJobIdFromResponse = (response: Response, jobName: string) => {
+    const $ = cheerio.load(response.text);
+    return $(`#allUsers #allPositionsBody tr td .settings-row .show-edit-position-modal[data-name="${jobName}"]`).attr('data-id');
+};
+
+export const getJobNameFromResponse = (response: Response, jobName: string) => {
+    const $ = cheerio.load(response.text);
+    return $(`#allUsers #allPositionsBody tr td .settings-row .show-edit-position-modal[data-name="${jobName}"]`).attr('data-name');
+};

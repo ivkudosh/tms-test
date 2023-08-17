@@ -24,11 +24,11 @@ export class OrgstructureAPI extends BaseAPI {
         }
     };
 
-    editOrgstructureNameRequest = (orgstructureId: string, editedOrgstructureName: string) => {
+    editOrgstructureNameRequest = (orgstructureId: string, newOrgstructureName: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editOrgStructureElement`)
                 .set(requestHeader)
-                .send(`level_id=${orgstructureId}&ci_csrf_token=&name=${editedOrgstructureName}&id=${orgstructureId}&org_structure_level_id=&manager_id=`);
+                .send(`level_id=${orgstructureId}&ci_csrf_token=&name=${newOrgstructureName}&id=${orgstructureId}&org_structure_level_id=&manager_id=`);
         } catch (error: any) {
             console.error('Something went wrong in editOrgstructureRequest');
             throw new Error(error.message);

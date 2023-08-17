@@ -24,6 +24,8 @@ const getRandomInteger = (min: number, max: number) => Math.floor(Math.random() 
 
 export const generateOrgstructureName = faker.company.buzzVerb;
 
+export const generateJobName = faker.person.jobType;
+
 export const generateFirstName = faker.person.firstName;
 export const generateLastName = faker.person.lastName;
 
