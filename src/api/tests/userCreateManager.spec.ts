@@ -1,26 +1,27 @@
 import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
-import ENV from "../../environment/env";
 import { faker } from "@faker-js/faker";
 import * as cheerio from 'cheerio';
 import { ORG_ID } from "./orgstructure.spec";
 import { JOB_NAME } from "./job.spec";
 import { genPassword } from "../helpers/generatePassword";
 import { USER_NAME_RANDOM, USER_SECOND_NAME_RANDOM, DATE_RANDOM, USER_EMAIL_RANDOM, USER_PASSWORD_RANDOM } from "../helpers/randoms";
+import { AuthorizationAPI } from "../restAPI/authorizationAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
+import { JobAPI } from "../restAPI/jobsAPI";
+import ENV from "../../../env/env";
 
 const superagent = request.agent();
 
 let response: Response;
 
+const authorizationAPI = new AuthorizationAPI(superagent);
+const orgstructureAPI = new OrgstructureAPI(superagent);
+const jobAPI = new JobAPI(superagent);
+
 describe("Авторизация для сотрудника (руководитель)", () => {
-    test(`Переход на страницу входа`, async () => {
-        try {
-            response = await superagent.get(`${ENV.BASE_URL}/auth/login`);
-        } catch (error: any) {
-            throw new Error(error.message);
-        }
-        expect(response.status).toBe(200);
-        expect(response.text).toContain('Платформа управления обучением');
+    beforeAll(() => {
+        authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
     });
 
     test(`Ввод реквизитов УЗ`, async () => {
