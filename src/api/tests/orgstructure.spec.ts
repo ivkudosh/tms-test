@@ -17,7 +17,7 @@ describe("Оргструктура", () => {
 
     const orgstructureRandomName: string = generateOrgstructureName();
 
-    beforeAll(async () => {
+    beforeAll( async () => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
             orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);

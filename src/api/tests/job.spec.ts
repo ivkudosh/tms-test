@@ -3,7 +3,7 @@ import request, { Response } from "superagent";
 import { generateJobName } from "../helpers/randoms";
 import ENV from "../../../env/env";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
-import { JobAPI } from "../restAPI/jobsAPI";
+import { JobAPI } from "../restAPI/jobAPI";
 import { getJobIdFromResponse } from "../helpers/utils";
 
 const superagent = request.agent();
@@ -66,7 +66,7 @@ describe("Должность", () => {
         const deletedJobResponse = await jobAPI.deleteJobRequest(jobIdForDelete);
 
         expect(deletedJobResponse.status).toBe(200);
-        expect(JSON.parse(deletedJobResponse.text).success).toBe(`Должность удалена`);
+        expect(JSON.parse(deletedJobResponse.text).success).toBe(`Должности удалены`);
     });
 
     afterAll(async () => {

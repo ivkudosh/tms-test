@@ -8,7 +8,6 @@ const superagent = request.agent();
 const authorizationAPI = new AuthorizationAPI(superagent);
 
 describe("Авторизация", () => {
-
     test(`Переход на страницу входа`, async () => {
         const gotoAuthorizationPageResponse = await authorizationAPI.gotoAuthorizationPageRequest();
 
