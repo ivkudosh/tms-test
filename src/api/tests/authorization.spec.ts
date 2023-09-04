@@ -19,7 +19,7 @@ describe("Авторизация", () => {
         const enterCredentialsResponse = await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
 
         expect(enterCredentialsResponse.status).toBe(200);
-        expect(JSON.parse(enterCredentialsResponse.text).success).toEqual("Вход выполнен");
+        expect(JSON.parse(enterCredentialsResponse.text).success).toBe("Вход выполнен");
     });
 
     test(`Проверка авторизации администратора`, async () => {

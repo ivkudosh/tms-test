@@ -30,7 +30,7 @@ describe("Должность", () => {
 
     test(`Создание должности`, async () => {
         expect(jobCreationResponse.status).toBe(200);
-        expect(JSON.parse(jobCreationResponse.text).success).toEqual(`Должность ${jobRandomName} добавлена`);
+        expect(JSON.parse(jobCreationResponse.text).success).toBe(`Должность ${jobRandomName} добавлена`);
     });
 
     test(`Проверка созданной должности через поиск`, async () => {

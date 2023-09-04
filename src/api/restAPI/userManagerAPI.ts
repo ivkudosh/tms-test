@@ -4,7 +4,7 @@ import { BaseAPI } from "./baseAPI";
 
 export class UserManagerAPI extends BaseAPI {
 
-    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
+    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string | number, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addWorker`)
             .set({'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -41,34 +41,34 @@ export class UserManagerAPI extends BaseAPI {
         }
     };
 
-    getOrgstructureRequest = () => {
-        try {
-            return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure/orgStructure`);
-        } catch (error: any) {
-            console.error('Something went wrong in getOrgstructureRequest');
-            throw new Error(error.message);
-        }
-    };
+    // getOrgstructureRequest = () => {
+    //     try {
+    //         return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure/orgStructure`);
+    //     } catch (error: any) {
+    //         console.error('Something went wrong in getOrgstructureRequest');
+    //         throw new Error(error.message);
+    //     }
+    // };
 
-    editOrgstructureNameRequest = (orgstructureId: string, newOrgstructureName: string) => {
-        try {
-            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editOrgStructureElement`)
-                .set(requestHeader)
-                .send(`level_id=${orgstructureId}&ci_csrf_token=&name=${newOrgstructureName}&id=${orgstructureId}&org_structure_level_id=&manager_id=`);
-        } catch (error: any) {
-            console.error('Something went wrong in editOrgstructureRequest');
-            throw new Error(error.message);
-        }
-    };
+    // editOrgstructureNameRequest = (orgstructureId: string, newOrgstructureName: string) => {
+    //     try {
+    //         return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editOrgStructureElement`)
+    //             .set(requestHeader)
+    //             .send(`level_id=${orgstructureId}&ci_csrf_token=&name=${newOrgstructureName}&id=${orgstructureId}&org_structure_level_id=&manager_id=`);
+    //     } catch (error: any) {
+    //         console.error('Something went wrong in editOrgstructureRequest');
+    //         throw new Error(error.message);
+    //     }
+    // };
 
-    deleteOrgstructureRequest = (orgstructureId: string) => {
-        try {
-            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/deleteElement/${orgstructureId}`)
-                .set(requestHeader)
-                .send(`ci_csrf_token=`);
-        } catch (error: any) {
-            console.error('Something went wrong in deleteOrgstructureRequest');
-            throw new Error(error.message);
-        }
-    };
+    // deleteOrgstructureRequest = (orgstructureId: string) => {
+    //     try {
+    //         return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/deleteElement/${orgstructureId}`)
+    //             .set(requestHeader)
+    //             .send(`ci_csrf_token=`);
+    //     } catch (error: any) {
+    //         console.error('Something went wrong in deleteOrgstructureRequest');
+    //         throw new Error(error.message);
+    //     }
+    // };
 }

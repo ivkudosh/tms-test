@@ -6,7 +6,7 @@ import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
 import { JobAPI } from "../restAPI/jobAPI";
 import ENV from "../../../env/env";
 import { UserManagerAPI } from "../restAPI/userManagerAPI";
-import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse } from "../helpers/utils";
+import { getJobNameFromResponse, getOrgstructureIdFromResponse } from "../helpers/utils";
 import { employeeRole } from "../helpers/constants";
 
 const superagent = request.agent();
@@ -21,7 +21,6 @@ describe("Руководитель", () => {
     let jobCreationResponse: Response;
     let userManagerCreationResponse: Response;
     let orgstructureId: string;
-    let jobId: string;
     let jobName: string;
 
     const orgstructureRandomName: string = generateOrgstructureName();
@@ -36,10 +35,14 @@ describe("Руководитель", () => {
     beforeAll(async() => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    });
 
-            jobCreationResponse = await jobAPI.createJobRequest(jobRandomName);
+    test(`Создание руководителя`, async () => {
+        jobCreationResponse = await jobAPI.createJobRequest(jobRandomName);
             const jobResponse = await jobAPI.getJobRequest();
-            jobId = getJobIdFromResponse(jobResponse, jobRandomName);
             jobName = getJobNameFromResponse(jobResponse, jobRandomName);
 
             orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);
@@ -47,12 +50,6 @@ describe("Руководитель", () => {
             orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
 
             userManagerCreationResponse = await userManagerAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword);
-        } catch (error: any) {
-            throw new Error(error.message);
-        }
-    });
-
-    test(`Создание руководителя`, async () => {
         expect(userManagerCreationResponse.status).toBe(200);
-    });
+    }, 30000); //установил 30 сек, ибо если менее 5, то тест валится
 });

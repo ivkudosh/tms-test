@@ -30,7 +30,7 @@ describe("Оргструктура", () => {
 
     test(`Создание оргструктуры`, async () => {
         expect(orgstructureCreationResponse.status).toBe(200);
-        expect(JSON.parse(orgstructureCreationResponse.text).success).toEqual(`Элемент оргструктуры ${orgstructureRandomName} успешно добавлен`);
+        expect(JSON.parse(orgstructureCreationResponse.text).success).toBe(`Элемент оргструктуры ${orgstructureRandomName} успешно добавлен`);
     });
 
     test(`Проверка получения оргструктуры`, async () => {
@@ -56,7 +56,7 @@ describe("Оргструктура", () => {
         const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
         const orgstructureIdForDelete = getOrgstructureIdFromResponse(orgstructureResponse, deletedOrgstructureRandomName);
 
-        const deleteOrgstructureResponse = await orgstructureAPI.deleteOrgstructureRequest(orgstructureIdForDelete);
+        const deleteOrgstructureResponse = await orgstructureAPI.deleteOrgstructureRequest(orgstructureIdForDelete); //Если выставить латиницу вместо id, то удалит все группы
 
         expect(deleteOrgstructureResponse.status).toBe(200);
         expect(JSON.parse(deleteOrgstructureResponse.text).status).toBe('success');
