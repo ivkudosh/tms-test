@@ -3,6 +3,7 @@ module.exports = {
     preset: "ts-jest",
     testEnvironment: 'node',
     globalSetup: '../../env/globalSetup.ts',
+    testTimeout: 10000,
     reporters: [
         "default", [
             "jest-html-reporter", {

@@ -4,7 +4,7 @@ import { BaseAPI } from "./baseAPI";
 
 export class UserManagerAPI extends BaseAPI {
 
-    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string | number, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
+    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addWorker`)
             .set({'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -41,34 +41,65 @@ export class UserManagerAPI extends BaseAPI {
         }
     };
 
-    // getOrgstructureRequest = () => {
-    //     try {
-    //         return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure/orgStructure`);
-    //     } catch (error: any) {
-    //         console.error('Something went wrong in getOrgstructureRequest');
-    //         throw new Error(error.message);
-    //     }
-    // };
+    getUserManagerRequest = () => {
+        try {
+            return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure`);
+        } catch (error: any) {
+            console.error('Something went wrong in getUserManagerRequest');
+            throw new Error(error.message);
+        }
+    };
 
-    // editOrgstructureNameRequest = (orgstructureId: string, newOrgstructureName: string) => {
-    //     try {
-    //         return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editOrgStructureElement`)
-    //             .set(requestHeader)
-    //             .send(`level_id=${orgstructureId}&ci_csrf_token=&name=${newOrgstructureName}&id=${orgstructureId}&org_structure_level_id=&manager_id=`);
-    //     } catch (error: any) {
-    //         console.error('Something went wrong in editOrgstructureRequest');
-    //         throw new Error(error.message);
-    //     }
-    // };
+    getUserManagerWithSearchRequest = (userMail: string) => {
+        try {
+            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/index`)
+            .set(requestHeader)
+            .send(`ci_csrf_token=&is_export=0&ajax=1&filter%5Bsearch%5D=${userMail}`);
+        } catch (error: any) {
+            console.error('Something went wrong in getUserManagerWithSearchRequest');
+            throw new Error(error.message);
+        }
+    };
 
-    // deleteOrgstructureRequest = (orgstructureId: string) => {
-    //     try {
-    //         return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/deleteElement/${orgstructureId}`)
-    //             .set(requestHeader)
-    //             .send(`ci_csrf_token=`);
-    //     } catch (error: any) {
-    //         console.error('Something went wrong in deleteOrgstructureRequest');
-    //         throw new Error(error.message);
-    //     }
-    // };
+    editUserManagerRequest = (userId: string, userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
+        try {
+            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editWorker`)
+                .set(requestHeader)
+                .send(`user_id=${userId}&first_name=${userName}&last_name=${userSecondName}&org_structure_level_id=${orgstructureId}&position=${jobName}&is_forced_teacher=1&is_expert=1&date_take_on_work=${dateTakeOnWork}&date_birthday=${dateBirthday}&city_name=&attribute=&role=${role}&active=1&email=${email}&is_new_psw=1&password=${password}&password2=${password}&is_send_new_psw=1&ci_csrf_token=`);
+        } catch (error: any) {
+            console.error('Something went wrong in editUserManagerRequest');
+            throw new Error(error.message);
+        }
+    };
+
+    getUserManagerModalRequest = (userId: string) => {
+        try {
+            return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure/getEditWorkerModal/${userId}?csrf_token=`)
+                .set(requestHeader);
+        } catch (error: any) {
+            console.error('Something went wrong in getUserManagerModalRequest');
+            throw new Error(error.message);
+        }
+    };
+
+    getUserManagerPersonIdFromAdminModalRequest = () => {
+        try {
+            return this.superagent.get(`${ENV.BASE_URL}/admin/kpi/structure/getEditWorkerModal/1?ci_csrf_token=`)
+                .set(requestHeader);
+        } catch (error: any) {
+            console.error('Something went wrong in getUserManagerPersonIdFromAdminModalRequest');
+            throw new Error(error.message);
+        }
+    };
+
+    deleteUserManagerRequest = (userId: string) => {
+        try {
+            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/studentsAction`)
+                .set(requestHeader)
+                .send(`ci_csrf_token=&action=delete&specialities%5B%5D=&students%5B%5D=${userId}`);
+        } catch (error: any) {
+            console.error('Something went wrong in deleteUserManagerRequest');
+            throw new Error(error.message);
+        }
+    };
 }
