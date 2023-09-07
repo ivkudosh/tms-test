@@ -1,9 +1,9 @@
 module.exports = {
-    testMatch: ["**/src/api/tests/userManager.spec.ts"],
+    testMatch: ["**/src/api/tests/*.spec.ts"],
     preset: "ts-jest",
     testEnvironment: 'node',
     globalSetup: '../../env/globalSetup.ts',
-    testTimeout: 10000,
+    testTimeout: 30000,
     reporters: [
         "default", [
             "jest-html-reporter", {

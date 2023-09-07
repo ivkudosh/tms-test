@@ -17,17 +17,13 @@ const jobAPI = new JobAPI(superagent);
 const userManagerAPI = new UserManagerAPI(superagent);
 
 describe("Руководитель", () => {
-    let orgstructureCreationResponse: Response;
-    let jobCreationResponse: Response;
     let userManagerCreationResponse: Response;
     let userManagerSearchResponse: Response;
-    let userManagerPersonIdResponse: Response;
 
     let orgstructureId: string;
     let jobName: string;
     let jobId: string;
     let userManagerId: string;
-    let userManagerPersonId: string;
 
     const orgstructureRandomName = generateOrgstructureName();
     const jobRandomName = generateJobName();
@@ -48,12 +44,12 @@ describe("Руководитель", () => {
     beforeAll(async() => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
-            jobCreationResponse = await jobAPI.createJobRequest(jobRandomName);
+            await jobAPI.createJobRequest(jobRandomName);
             const jobResponse = await jobAPI.getJobRequest();
             jobName = getJobNameFromResponse(jobResponse, jobRandomName);
             jobId = getJobIdFromResponse(jobResponse, jobRandomName);
 
-            orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);
+            await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);
             const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
             orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
 
@@ -105,40 +101,27 @@ describe("Руководитель", () => {
     });
 
     test(`Удаление руководителя`, async () => { 
-        // const deletedOrgstructureRandomName = generateOrgstructureName();
-        // const deletedJobRandomName = generateJobName();
-        // const deletedUserRandomFirstName = generateFirstName();
-        // const deletedUserRandomSecondName = generateLastName();
-        // const deletedDateWork = generateDate();
-        // const deletedDateBirthday = generateDate();
-        // const deletedUserRandomEmail = generateEmail();
-        // const deletedUserRandomPassword = generateCustomPassword();
+        const deletedUserRandomFirstName = generateFirstName();
+        const deletedUserRandomSecondName = generateLastName();
+        const deletedDateWork = generateDate();
+        const deletedDateBirthday = generateDate();
+        const deletedUserRandomEmail = generateEmail();
+        const deletedUserRandomPassword = generateCustomPassword();
 
-        // const jobCreationResponse = await jobAPI.createJobRequest(deletedJobRandomName);
-        // const jobResponse = await jobAPI.getJobRequest();
-        // jobName = getJobNameFromResponse(jobResponse, jobRandomName);
-        // jobId = getJobIdFromResponse(jobResponse, jobRandomName);
-
-        // orgstructureCreationResponse = await orgstructureAPI.createOrgstructureRequest(orgstructureRandomName);
-        // const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
-        // orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
-
-        // userManagerCreationResponse = await userManagerAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword);
-
-        // userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(userRandomEmail);
-        // userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
+        await userManagerAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword);
+        const userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
+        const userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
 
         const deletedUserManagerResponse = await userManagerAPI.deleteUserManagerRequest(userManagerId);
 
         expect(deletedUserManagerResponse.status).toBe(200);
-        expect(deletedUserManagerResponse).not.toContain(editedUserRandomEmail);
+        expect(deletedUserManagerResponse).not.toContain(deletedUserRandomEmail);
     });
 
     afterAll(async () => {
         await jobAPI.deleteJobRequest(jobId);
         await orgstructureAPI.deleteOrgstructureRequest(orgstructureId);
-        // await userManagerAPI.deleteUserManagerRequest(userManagerId);
+        await userManagerAPI.deleteUserManagerRequest(userManagerId);
         await authorizationAPI.logoutAuthorizationRequest();
     });
 });
-
