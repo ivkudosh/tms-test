@@ -4,7 +4,7 @@ import { BaseAPI } from "./baseAPI";
 
 export class UserManagerAPI extends BaseAPI {
 
-    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
+    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, userParentId?: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addWorker`)
             .set({'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -34,6 +34,7 @@ export class UserManagerAPI extends BaseAPI {
                 password2: password,
                 send_password: 1,
                 generate_person_id: 1,
+                parent_id: userParentId
             });
         } catch (error: any) {
             console.error('Something went wrong in createUserManagerRequest');

@@ -6,7 +6,7 @@ import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
 import { JobAPI } from "../restAPI/jobAPI";
 import ENV from "../../../env/env";
 import { UserManagerAPI } from "../restAPI/userManagerAPI";
-import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserManagerIdFromResponse } from "../helpers/utils";
+import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserManagerIdFromResponse, getUserManagerPersonIdModalFromResponse } from "../helpers/utils";
 import { employeeRole } from "../helpers/constants";
 
 const superagent = request.agent();
@@ -16,14 +16,16 @@ const orgstructureAPI = new OrgstructureAPI(superagent);
 const jobAPI = new JobAPI(superagent);
 const userManagerAPI = new UserManagerAPI(superagent);
 
-describe("Руководитель", () => {
+describe("Руководитель/Сотрудник", () => {
     let userManagerCreationResponse: Response;
     let userManagerSearchResponse: Response;
+    let userManagerModalResponse: Response;
 
     let orgstructureId: string;
     let jobName: string;
     let jobId: string;
     let userManagerId: string;
+    let userManagerPersonId: string;
 
     const orgstructureRandomName = generateOrgstructureName();
     const jobRandomName = generateJobName();
@@ -44,6 +46,7 @@ describe("Руководитель", () => {
     beforeAll(async() => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
+            
             await jobAPI.createJobRequest(jobRandomName);
             const jobResponse = await jobAPI.getJobRequest();
             jobName = getJobNameFromResponse(jobResponse, jobRandomName);
@@ -57,6 +60,9 @@ describe("Руководитель", () => {
 
             userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(userRandomEmail);
             userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
+
+            userManagerModalResponse = await userManagerAPI.getUserManagerModalRequest(userManagerId);
+            userManagerPersonId = getUserManagerPersonIdModalFromResponse(userManagerModalResponse);            
         } catch (error: any) {
             throw new Error(error.message);
         }
@@ -100,6 +106,25 @@ describe("Руководитель", () => {
         expect(JSON.parse(editUserManagerResponse.text).success).toBe("Данные успешно сохранены");
     });
 
+    test(`Удаление сотрудника с присвоенным ему руководителям`, async () => {
+        const employeeUserRandomFirstName = generateFirstName();
+        const employeeUserRandomSecondName = generateLastName();
+        const employeeDateWork = generateDate();
+        const employeeDateBirthday = generateDate();
+        const employeeUserRandomEmail = generateEmail();
+        const employeeUserRandomPassword = generateCustomPassword();
+
+        //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
+        await userManagerAPI.createUserManagerRequest(employeeUserRandomFirstName, employeeUserRandomSecondName, orgstructureId, jobName, employeeDateWork, employeeDateBirthday, employeeRole, employeeUserRandomEmail, employeeUserRandomPassword, userManagerPersonId);
+        const employeeUserManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(employeeUserRandomEmail);
+        const employeeUserManagerId = getUserManagerIdFromResponse(employeeUserManagerSearchResponse);
+
+        const employeeUserManagerResponse = await userManagerAPI.deleteUserManagerRequest(employeeUserManagerId);
+
+        expect(employeeUserManagerResponse.status).toBe(200);
+        expect(employeeUserManagerResponse.text).not.toContain(employeeUserRandomEmail);
+    });
+
     test(`Удаление руководителя`, async () => { 
         const deletedUserRandomFirstName = generateFirstName();
         const deletedUserRandomSecondName = generateLastName();
@@ -115,7 +140,7 @@ describe("Руководитель", () => {
         const deletedUserManagerResponse = await userManagerAPI.deleteUserManagerRequest(userManagerId);
 
         expect(deletedUserManagerResponse.status).toBe(200);
-        expect(deletedUserManagerResponse).not.toContain(deletedUserRandomEmail);
+        expect(deletedUserManagerResponse.text).not.toContain(deletedUserRandomEmail);
     });
 
     afterAll(async () => {
