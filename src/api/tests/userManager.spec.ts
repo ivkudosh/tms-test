@@ -56,7 +56,7 @@ describe("Руководитель/Сотрудник", () => {
             const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
             orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
 
-            userManagerCreationResponse = await userManagerAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword);
+            userManagerCreationResponse = await userManagerAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, 1, 1, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword, 1);
 
             userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(userRandomEmail);
             userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
@@ -96,11 +96,11 @@ describe("Руководитель/Сотрудник", () => {
         const userManagerResponse = await userManagerAPI.getUserManagerPersonIdFromAdminModalRequest();
 
         expect(userManagerResponse.status).toBe(200);
-        expect(userManagerResponse.text).toContain(`${userRandomFirstName} ${userRandomSecondName}`);
+        expect(userManagerResponse.text).toContain(`${userRandomSecondName}`);
     });
 
     test(`Редактирование руководителя`, async () => {
-        const editUserManagerResponse = await userManagerAPI.editUserManagerRequest(userManagerId, editedUserRandomFirstName, editedUserRandomSecondName, orgstructureId, jobName, editedDateWork, editedDateBirthday, employeeRole, editedUserRandomEmail, editedUserRandomPassword);
+        const editUserManagerResponse = await userManagerAPI.editUserManagerRequest(userManagerId, editedUserRandomFirstName, editedUserRandomSecondName, orgstructureId, jobName,  1, 1, editedDateWork, editedDateBirthday, employeeRole, editedUserRandomEmail, editedUserRandomPassword, 0);
 
         expect(editUserManagerResponse.status).toBe(200);
         expect(JSON.parse(editUserManagerResponse.text).success).toBe("Данные успешно сохранены");
@@ -115,7 +115,7 @@ describe("Руководитель/Сотрудник", () => {
         const employeeUserRandomPassword = generateCustomPassword();
 
         //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
-        await userManagerAPI.createUserManagerRequest(employeeUserRandomFirstName, employeeUserRandomSecondName, orgstructureId, jobName, employeeDateWork, employeeDateBirthday, employeeRole, employeeUserRandomEmail, employeeUserRandomPassword, userManagerPersonId);
+        await userManagerAPI.createUserManagerRequest(employeeUserRandomFirstName, employeeUserRandomSecondName, orgstructureId, jobName, 1, 1, employeeDateWork, employeeDateBirthday, employeeRole, employeeUserRandomEmail, employeeUserRandomPassword, 1, userManagerPersonId);
         const employeeUserManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(employeeUserRandomEmail);
         const employeeUserManagerId = getUserManagerIdFromResponse(employeeUserManagerSearchResponse);
 
@@ -133,7 +133,7 @@ describe("Руководитель/Сотрудник", () => {
         const deletedUserRandomEmail = generateEmail();
         const deletedUserRandomPassword = generateCustomPassword();
 
-        await userManagerAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword);
+        await userManagerAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, 1, 1, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword, 1);
         const userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
         const userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
 

@@ -4,7 +4,7 @@ import { BaseAPI } from "./baseAPI";
 
 export class UserManagerAPI extends BaseAPI {
 
-    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, userParentId?: string) => {
+    createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, isTeacher: 0 | 1, isExpert: 0 | 1, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, sendPassword: 1 | 0, userParentId?: string, cityName?: string, attribute?: string ) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addWorker`)
             .set({'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -19,20 +19,20 @@ export class UserManagerAPI extends BaseAPI {
                 midle_name: '',
                 org_structure_level_id: orgstructureId,
                 position: jobName,
-                is_forced_teacher: 1,
-                is_expert: 1,
+                is_forced_teacher: isTeacher,
+                is_expert: isExpert,
                 date_take_on_work: dateTakeOnWork,
                 date_birthday: dateBirthday,
-                city_name: '',
+                city_name: cityName,
                 region_name: '',
                 project_name: '',
                 law_face: '',
-                attribute: '',
+                attribute: attribute,
                 role: role,
                 email: email,
                 password: password,
                 password2: password,
-                send_password: 1,
+                send_password: sendPassword,
                 generate_person_id: 1,
                 parent_id: userParentId
             });
@@ -62,11 +62,11 @@ export class UserManagerAPI extends BaseAPI {
         }
     };
 
-    editUserManagerRequest = (userId: string, userName: string, userSecondName: string, orgstructureId: string, jobName: string, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string) => {
+    editUserManagerRequest = (userId: string, userName: string, userSecondName: string, orgstructureId: string, jobName: string, isTeacher: 0 | 1, isExpert: 0 | 1, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, sendPassword: 1 | 0, isActive?: 1 | 0, cityName?: string, attribute?: string ) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editWorker`)
                 .set(requestHeader)
-                .send(`user_id=${userId}&first_name=${userName}&last_name=${userSecondName}&org_structure_level_id=${orgstructureId}&position=${jobName}&is_forced_teacher=1&is_expert=1&date_take_on_work=${dateTakeOnWork}&date_birthday=${dateBirthday}&city_name=&attribute=&role=${role}&active=1&email=${email}&is_new_psw=1&password=${password}&password2=${password}&is_send_new_psw=1&ci_csrf_token=`);
+                .send(`user_id=${userId}&first_name=${userName}&last_name=${userSecondName}&org_structure_level_id=${orgstructureId}&position=${jobName}&is_forced_teacher=${isTeacher}&is_expert=${isExpert}&date_take_on_work=${dateTakeOnWork}&date_birthday=${dateBirthday}&city_name=${cityName}&attribute=${attribute}&role=${role}&active=${isActive}&email=${email}&is_new_psw=1&password=${password}&password2=${password}&is_send_new_psw=${sendPassword}&ci_csrf_token=`);
         } catch (error: any) {
             console.error('Something went wrong in editUserManagerRequest');
             throw new Error(error.message);
