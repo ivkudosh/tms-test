@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "api:features:test": "rm -rf src/api/assets && cross-env test_env=tms-features jest --config='./src/api/jest.config.js'",
+    "api:fesco:test": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
+    "api:smile:test": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
     "ui:features:test": "rm -rf src/ui/assets/allure-results-tms-test && rm -rf src/ui/assets/allure-report-tms-test && cross-env test_env=tms-test playwright test --config=./src/ui/config/playwright.config.ts",
     "ui:features:test:report": "allure generate src/ui/assets/allure-results-tms-test --clean -o src/ui/assets/allure-report-tms-test && allure open src/ui/assets/allure-report-tms-test",
     "ui:features:prod": "rm -rf src/ui/assets/allure-results-tms-features && rm -rf src/ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./src/ui/config/playwright.config.ts",
