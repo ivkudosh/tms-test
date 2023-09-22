@@ -1,10 +1,10 @@
 import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
-import { generateJobName } from "../helpers/randoms";
 import ENV from "../../../env/env";
+import { generateJobName } from "../helpers/randoms";
+import { getJobIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
 import { JobAPI } from "../restAPI/jobAPI";
-import { getJobIdFromResponse } from "../helpers/utils";
 
 const superagent = request.agent();
 

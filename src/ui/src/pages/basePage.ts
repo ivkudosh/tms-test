@@ -75,11 +75,11 @@ export class BasePage {
     }
 
     public async typeNameInNameFieldModalWindow(name: string): Promise<void> {
-        await this.nameFieldModalWindow.type(name);
+        await this.nameFieldModalWindow.fill(name);
     }
 
     public async typeNewNameInNameFieldModalWindow(name: string): Promise<void> {
-        await this.filledNameFieldModalWindow.type(name);
+        await this.filledNameFieldModalWindow.fill(name);
     }
 
     public async waitForTimeout(time: number): Promise<void> {

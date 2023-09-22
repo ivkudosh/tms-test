@@ -1,6 +1,6 @@
-import { BasePage } from "./basePage";
 import { Locator, Page } from "@playwright/test";
 import ENV from "../../../../env/env";
+import { BasePage } from "./basePage";
 
 export class AdminUsersPage extends BasePage {
     public readonly addUserModalWindow: Locator;
@@ -66,11 +66,11 @@ export class AdminUsersPage extends BasePage {
     }
 
     public async typeNameInNameField(name: string): Promise<void> {
-        await this.nameField.type(name);
+        await this.nameField.fill(name);
     }
 
     public async typeSurnameInSurnameField(surname: string): Promise<void> {
-        await this.surnameField.type(surname);
+        await this.surnameField.fill(surname);
     }
 
     public async clickOrgStructureField(): Promise<void> {
@@ -90,15 +90,15 @@ export class AdminUsersPage extends BasePage {
     }
 
     public async typeDateCalendarWorkField(date: string): Promise<void> {
-        await this.calendarWorkField.type(date);
+        await this.calendarWorkField.fill(date);
     }
 
     public async typeDateCalendarBirthdayField(date: string): Promise<void> {
-        await this.calendarBirthdayField.type(date);
+        await this.calendarBirthdayField.fill(date);
     }
 
     public async typeEmailInEmailField(email: string): Promise<void> {
-        await this.emailField.type(email);
+        await this.emailField.fill(email);
     }
 
     public async clickRandomPasswordButton(): Promise<void> {
@@ -162,7 +162,7 @@ export class AdminUsersPage extends BasePage {
     }
 
     public async typeTextRewardCommentField(text: string): Promise<void> {
-        await this.rewardCommentField.type(text);
+        await this.rewardCommentField.fill(text);
     }
 
     public async clickRewardSaveButton(): Promise<void> {

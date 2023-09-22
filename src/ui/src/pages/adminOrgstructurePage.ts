@@ -1,6 +1,6 @@
-import { BasePage } from "./basePage";
 import { Locator, Page } from "@playwright/test";
 import ENV from "../../../../env/env";
+import { BasePage } from "./basePage";
 
 export class AdminOrgstructurePage extends BasePage {
     public readonly yesButton: Locator;

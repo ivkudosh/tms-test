@@ -1,22 +1,22 @@
 import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
-import { generateOrgstructureName, generateJobName, generateFirstName, generateLastName, generateDate, generateEmail, generateCustomPassword } from "../helpers/randoms";
-import { AuthorizationAPI } from "../restAPI/authorizationAPI";
-import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
-import { JobAPI } from "../restAPI/jobAPI";
 import ENV from "../../../env/env";
-import { UserManagerAPI } from "../restAPI/userManagerAPI";
-import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserManagerIdFromResponse, getUserManagerPersonIdModalFromResponse } from "../helpers/utils";
 import { employeeRole } from "../helpers/constants";
+import { generateCustomPassword, generateDate, generateEmail, generateFirstName, generateJobName, generateLastName, generateOrgstructureName } from "../helpers/randoms";
+import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserManagerIdFromResponse, getUserManagerPersonIdModalFromResponse } from "../helpers/utils";
+import { AuthorizationAPI } from "../restAPI/authorizationAPI";
+import { JobAPI } from "../restAPI/jobAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
+import { UserAPI } from "../restAPI/userAPI";
 
 const superagent = request.agent();
 
 const authorizationAPI = new AuthorizationAPI(superagent);
 const orgstructureAPI = new OrgstructureAPI(superagent);
 const jobAPI = new JobAPI(superagent);
-const userManagerAPI = new UserManagerAPI(superagent);
+const userAPI = new UserAPI(superagent);
 
-describe("Руководитель/Сотрудник", () => {
+describe("Сотрудник/Руководитель", () => {
     let userManagerCreationResponse: Response;
     let userManagerSearchResponse: Response;
     let userManagerModalResponse: Response;
@@ -56,12 +56,12 @@ describe("Руководитель/Сотрудник", () => {
             const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
             orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
 
-            userManagerCreationResponse = await userManagerAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, 1, 1, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword, 1);
+            userManagerCreationResponse = await userAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, 1, 1, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword, 1);
 
-            userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(userRandomEmail);
+            userManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(userRandomEmail);
             userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
 
-            userManagerModalResponse = await userManagerAPI.getUserManagerModalRequest(userManagerId);
+            userManagerModalResponse = await userAPI.getUserManagerModalRequest(userManagerId);
             userManagerPersonId = getUserManagerPersonIdModalFromResponse(userManagerModalResponse);            
         } catch (error: any) {
             throw new Error(error.message);
@@ -74,7 +74,7 @@ describe("Руководитель/Сотрудник", () => {
     });
 
     test(`Проверка созданного руководителя`, async () => {
-        const userManagerResponse = await userManagerAPI.getUserManagerRequest();
+        const userManagerResponse = await userAPI.getUserManagerRequest();
 
         expect(userManagerResponse.status).toBe(200);
         expect(userManagerResponse.text).toContain(userRandomEmail);
@@ -86,21 +86,21 @@ describe("Руководитель/Сотрудник", () => {
     });
 
     test(`Открытие формы редактирования руководителя`, async () => {
-        const userManagerResponse = await userManagerAPI.getUserManagerModalRequest(userManagerId);
+        const userManagerResponse = await userAPI.getUserManagerModalRequest(userManagerId);
 
         expect(userManagerResponse.status).toBe(200);
         expect(userManagerResponse.text).toContain(userRandomEmail);
     });
 
     test(`Проверка внутреннего идентификатора (person_id) созданного руководителя в модальном окне администратора `, async () => {
-        const userManagerResponse = await userManagerAPI.getUserManagerPersonIdFromAdminModalRequest();
+        const userManagerResponse = await userAPI.getUserManagerPersonIdFromAdminModalRequest();
 
         expect(userManagerResponse.status).toBe(200);
         expect(userManagerResponse.text).toContain(`${userRandomSecondName}`);
     });
 
     test(`Редактирование руководителя`, async () => {
-        const editUserManagerResponse = await userManagerAPI.editUserManagerRequest(userManagerId, editedUserRandomFirstName, editedUserRandomSecondName, orgstructureId, jobName,  1, 1, editedDateWork, editedDateBirthday, employeeRole, editedUserRandomEmail, editedUserRandomPassword, 0);
+        const editUserManagerResponse = await userAPI.editUserManagerRequest(userManagerId, editedUserRandomFirstName, editedUserRandomSecondName, orgstructureId, jobName,  1, 1, editedDateWork, editedDateBirthday, employeeRole, editedUserRandomEmail, editedUserRandomPassword, 0);
 
         expect(editUserManagerResponse.status).toBe(200);
         expect(JSON.parse(editUserManagerResponse.text).success).toBe("Данные успешно сохранены");
@@ -114,12 +114,12 @@ describe("Руководитель/Сотрудник", () => {
         const employeeUserRandomEmail = generateEmail();
         const employeeUserRandomPassword = generateCustomPassword();
 
-        //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
-        await userManagerAPI.createUserManagerRequest(employeeUserRandomFirstName, employeeUserRandomSecondName, orgstructureId, jobName, 1, 1, employeeDateWork, employeeDateBirthday, employeeRole, employeeUserRandomEmail, employeeUserRandomPassword, 1, userManagerPersonId);
-        const employeeUserManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(employeeUserRandomEmail);
+        
+        await userAPI.createUserManagerRequest(employeeUserRandomFirstName, employeeUserRandomSecondName, orgstructureId, jobName, 1, 1, employeeDateWork, employeeDateBirthday, employeeRole, employeeUserRandomEmail, employeeUserRandomPassword, 1, userManagerPersonId); //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
+        const employeeUserManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(employeeUserRandomEmail);
         const employeeUserManagerId = getUserManagerIdFromResponse(employeeUserManagerSearchResponse);
 
-        const employeeUserManagerResponse = await userManagerAPI.deleteUserManagerRequest(employeeUserManagerId);
+        const employeeUserManagerResponse = await userAPI.deleteUserManagerRequest(employeeUserManagerId);
 
         expect(employeeUserManagerResponse.status).toBe(200);
         expect(employeeUserManagerResponse.text).not.toContain(employeeUserRandomEmail);
@@ -133,11 +133,11 @@ describe("Руководитель/Сотрудник", () => {
         const deletedUserRandomEmail = generateEmail();
         const deletedUserRandomPassword = generateCustomPassword();
 
-        await userManagerAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, 1, 1, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword, 1);
-        const userManagerSearchResponse = await userManagerAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
+        await userAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, 1, 1, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword, 1);
+        const userManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
         const userManagerId = getUserManagerIdFromResponse(userManagerSearchResponse);
 
-        const deletedUserManagerResponse = await userManagerAPI.deleteUserManagerRequest(userManagerId);
+        const deletedUserManagerResponse = await userAPI.deleteUserManagerRequest(userManagerId);
 
         expect(deletedUserManagerResponse.status).toBe(200);
         expect(deletedUserManagerResponse.text).not.toContain(deletedUserRandomEmail);
@@ -146,7 +146,30 @@ describe("Руководитель/Сотрудник", () => {
     afterAll(async () => {
         await jobAPI.deleteJobRequest(jobId);
         await orgstructureAPI.deleteOrgstructureRequest(orgstructureId);
-        await userManagerAPI.deleteUserManagerRequest(userManagerId);
+        await userAPI.deleteUserManagerRequest(userManagerId);
         await authorizationAPI.logoutAuthorizationRequest();
     });
+});
+
+
+describe.skip("(Отключен) Создание большого количества пользователей", () => { // Убрать метод .skip и установить .only если нужно создать много пользователей
+    beforeAll(async () => {
+        try {
+            await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    });
+    
+    for (let i = 0; i < 1; i++) { //Выбрать количество прогонов теста
+        test.skip(`Создание пользователя № ${i + 1}`, async () => { // Убрать метод .skip и установить .only если нужно создать много пользователей
+            const randomDateWork = generateDate();
+            const randomDateBirthday = generateDate();
+            
+            const usersCreationsResponse = await userAPI.createUserManagerRequest(`User-${i + 1}`, "Test", '16446', 'Грузчик', 0, 0, randomDateWork, randomDateBirthday, employeeRole, (i + 1) + '-test-knomary@knomary.com', '12345678', 0); //Грузчик - должность, которая есть в системе. 16446 - id оргстуктуры, которая есть в системе
+            
+            expect(usersCreationsResponse.status).toBe(200);
+            expect(JSON.parse(usersCreationsResponse.text).success).toBe(`Пользователь ${i + 1}-test-knomary@knomary.com успешно добавлен`);
+        });
+    }
 });

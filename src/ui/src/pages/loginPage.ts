@@ -1,6 +1,6 @@
-import { BasePage } from "./basePage";
 import { Locator, Page } from "@playwright/test";
 import ENV from "../../../../env/env";
+import { BasePage } from "./basePage";
 
 
 export class LoginPage extends BasePage {
@@ -19,11 +19,11 @@ export class LoginPage extends BasePage {
     }
 
     public async typeMailLoginInEmailField(mail: string): Promise<void> {
-        await this.emailField.type(mail);
+        await this.emailField.fill(mail);
     }
 
     public async typePasswordInPasswordField(password: string): Promise<void> {
-        await this.passwordField.type(password);
+        await this.passwordField.fill(password);
     }
 
     public async clickOnSignInButton(): Promise<void> {

@@ -2,7 +2,7 @@ import ENV from "../../../env/env";
 import { requestHeader } from "../helpers/constants";
 import { BaseAPI } from "./baseAPI";
 
-export class UserManagerAPI extends BaseAPI {
+export class UserAPI extends BaseAPI {
 
     createUserManagerRequest = (userName: string, userSecondName: string, orgstructureId: string, jobName: string, isTeacher: 0 | 1, isExpert: 0 | 1, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, sendPassword: 1 | 0, userParentId?: string, cityName?: string, attribute?: string ) => {
         try {

@@ -2,3 +2,5 @@ node_modules
 **/assets
 .github
 .env*
+tests-examples
+.idea

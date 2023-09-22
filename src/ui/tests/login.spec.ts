@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
-import { test, expect } from "@playwright/test";
-import { PageFactory } from "../src/pages/pageFactory";
+import { expect, test } from "@playwright/test";
+import { BASE_MAIN_TEXT, BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/helpers/constants";
 import { Pages } from "../src/helpers/types";
 import { LoginPage } from "../src/pages/loginPage";
-import { BASE_MAIN_TEXT, BASE_TITLE, INCORRECT_CREDENTIALS_MESSAGE } from "../src/helpers/constants";
+import { PageFactory } from "../src/pages/pageFactory";
 
 let loginPage: LoginPage;
 

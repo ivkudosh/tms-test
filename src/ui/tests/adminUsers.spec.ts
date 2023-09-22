@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
-import { test, expect } from "@playwright/test";
-import { PageFactory } from "../src/pages/pageFactory";
-import { Pages } from "../src/helpers/types";
-import { LoginPage } from "../src/pages/loginPage";
-import { AdminUsersPage } from "../src/pages/adminUsersPage";
+import { expect, test } from "@playwright/test";
 import ENV from '../../../env/env';
+import { Pages } from "../src/helpers/types";
+import { AdminUsersPage } from "../src/pages/adminUsersPage";
+import { LoginPage } from "../src/pages/loginPage";
+import { PageFactory } from "../src/pages/pageFactory";
 
 let loginPage: LoginPage;
 let adminUsersPage: AdminUsersPage;

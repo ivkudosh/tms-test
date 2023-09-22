@@ -1,5 +1,4 @@
 import ENV from "../../../env/env";
-import { requestHeader } from "../helpers/constants";
 import { BaseAPI } from "./baseAPI";
 
 export class GroupsAPI extends BaseAPI {

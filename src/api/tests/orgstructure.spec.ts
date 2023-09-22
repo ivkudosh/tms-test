@@ -1,10 +1,10 @@
 import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
-import { getOrgstructureIdFromResponse } from "../helpers/utils";
 import ENV from "../../../env/env";
-import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
 import { generateOrgstructureName } from "../helpers/randoms";
+import { getOrgstructureIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
 
 const superagent = request.agent();
 

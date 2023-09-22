@@ -1,11 +1,11 @@
 import { Page } from "@playwright/test";
 import { Pages } from "../helpers/types";
-import { LoginPage } from "./loginPage";
-import { AdminUsersPage } from "./adminUsersPage";
+import { AdminGroupsPage } from "./adminGroupsPage";
 import { AdminOrgstructurePage } from "./adminOrgstructurePage";
 import { AdminPositionsPage } from "./adminPositionsPage";
-import { AdminGroupsPage } from "./adminGroupsPage";
 import { AdminSubordinationPage } from "./adminSubordinationPage";
+import { AdminUsersPage } from "./adminUsersPage";
+import { LoginPage } from "./loginPage";
 
 export class PageFactory {
     // eslint-disable-next-line @typescript-eslint/no-empty-function

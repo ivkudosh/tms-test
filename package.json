@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "api:fesco:test": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
-    "api:smile:test": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
-    "ui:features:test": "rm -rf src/ui/assets/allure-results-tms-test && rm -rf src/ui/assets/allure-report-tms-test && cross-env test_env=tms-test playwright test --config=./src/ui/config/playwright.config.ts",
-    "ui:features:test:report": "allure generate src/ui/assets/allure-results-tms-test --clean -o src/ui/assets/allure-report-tms-test && allure open src/ui/assets/allure-report-tms-test",
+    "api:test:mile": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
+    "api:test:smile:load": "rm -rf src/api/assets && cross-env test_env=test-smile-load jest --config='./src/api/jest.config.js'",
+    "api:test:fesco": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
+    "ui:test:fesco": "rm -rf src/ui/assets/allure-results-test-fesco && rm -rf src/ui/assets/allure-report-test-fesco && cross-env test_env=test-fesco playwright test --config=./src/ui/config/playwright.config.ts",
+    "ui:test:fesco:report": "allure generate src/ui/assets/allure-results-test-fesco --clean -o src/ui/assets/allure-report-test-fesco && allure open src/ui/assets/allure-report-test-fesco",
     "ui:features:prod": "rm -rf src/ui/assets/allure-results-tms-features && rm -rf src/ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./src/ui/config/playwright.config.ts",
     "ui:features:prod:report": "allure generate src/ui/assets/allure-results-tms-features --clean -o src/ui/assets/allure-report-tms-features && allure open src/ui/assets/allure-report-tms-features"
   },
@@ -38,7 +39,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
-    "@playwright/test": "^1.35.0",
+    "@playwright/test": "^1.38.0",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "cross-env": "^7.0.3",

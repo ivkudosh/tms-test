@@ -1,6 +1,6 @@
-import { BasePage } from "./basePage";
 import { Locator, Page } from "@playwright/test";
 import ENV from "../../../../env/env";
+import { BasePage } from "./basePage";
 
 export class AdminPositionsPage extends BasePage {
     public readonly createdPositionElement: Locator;
@@ -22,7 +22,7 @@ export class AdminPositionsPage extends BasePage {
     }
 
     public async typeNamePositionSearchField(namePosition: string): Promise<void> {
-        await this.searchField.type(namePosition);
+        await this.searchField.fill(namePosition);
     }
 
     public async pressEnterSearchField(): Promise<void> {
