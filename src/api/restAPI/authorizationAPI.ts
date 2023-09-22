@@ -15,7 +15,6 @@ export class AuthorizationAPI extends BaseAPI {
     enterCredentialsRequest = (mail: string, password: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/auth/expired`)
-                .set('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8')
                 .send(`identity=${mail}&password=${password}&is_two_f_auth=&is_auth_by_id=0&ci_csrf_token=`);
         } catch (error: any) {
             console.error('Something went wrong in enterCredentialsRequest');

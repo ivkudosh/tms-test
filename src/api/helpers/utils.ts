@@ -16,12 +16,17 @@ export const getJobNameFromResponse = (response: Response, jobName: string) => {
     return $(`#allUsers #allPositionsBody tr td .settings-row .show-edit-position-modal[data-name="${jobName}"]`).attr('data-name');
 };
 
-export const getUserManagerIdFromResponse = (response: Response) => {
+export const getUserIdFromResponse = (response: Response) => {
     const $ = cheerio.load(JSON.parse(response.text).innerHtml);
     return $(`#allUsersBody tr td:nth-child(1) .checkbox .i-checks .ShowOrHide `).attr('value');
 };
 
-export const getUserManagerPersonIdModalFromResponse = (response: Response) => {
+export const getUserPersonIdModalFromResponse = (response: Response) => {
     const $ = cheerio.load(response.text);
     return $(`.form-group.generator-field #person_id`).attr('value');
+};
+
+export const getGroupIdFromResponse = (response: Response, groupName: string) => {
+    const $ = cheerio.load(JSON.parse(response.text).innerHtml);
+    return $(`.selenium_list_stroke_${groupName} td:nth-child(1) .checkbox .i-checks input`).attr('value');
 };

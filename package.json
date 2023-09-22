@@ -8,7 +8,8 @@
     "api:test:smile:load": "rm -rf src/api/assets && cross-env test_env=test-smile-load jest --config='./src/api/jest.config.js'",
     "api:test:fesco": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
     "ui:test:fesco": "rm -rf src/ui/assets/allure-results-test-fesco && rm -rf src/ui/assets/allure-report-test-fesco && cross-env test_env=test-fesco playwright test --config=./src/ui/config/playwright.config.ts",
-    "ui:test:fesco:report": "allure generate src/ui/assets/allure-results-test-fesco --clean -o src/ui/assets/allure-report-test-fesco && allure open src/ui/assets/allure-report-test-fesco",
+    "ui:test:fesco:allure-report": "allure generate src/ui/assets/allure-results-test-fesco --clean -o src/ui/assets/allure-report-test-fesco && allure open src/ui/assets/allure-report-test-fesco",
+    "ui:test:fesco:playwright-report": "npx playwright show-report src/ui/assets/playwright-report-test-fesco",
     "ui:features:prod": "rm -rf src/ui/assets/allure-results-tms-features && rm -rf src/ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./src/ui/config/playwright.config.ts",
     "ui:features:prod:report": "allure generate src/ui/assets/allure-results-tms-features --clean -o src/ui/assets/allure-report-tms-features && allure open src/ui/assets/allure-report-tms-features"
   },

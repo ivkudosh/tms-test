@@ -8,8 +8,6 @@ export class UserAPI extends BaseAPI {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addWorker`)
             .set({'Accept':'application/json, text/javascript, */*; q=0.01',
-            'Accept-Language':'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Connection':'keep-alive',
             'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
             'X-Requested-With':'XMLHttpRequest'})
             .send({
@@ -62,11 +60,11 @@ export class UserAPI extends BaseAPI {
         }
     };
 
-    editUserManagerRequest = (userId: string, userName: string, userSecondName: string, orgstructureId: string, jobName: string, isTeacher: 0 | 1, isExpert: 0 | 1, dateTakeOnWork: string, dateBirthday: string, role: string, email: string, password: string, sendPassword: 1 | 0, isActive?: 1 | 0, cityName?: string, attribute?: string ) => {
+    editUserManagerRequest = (userId: string, newUserName: string, newUserSecondName: string, newOrgstructureId: string, newJobName: string, isTeacher: 0 | 1, isExpert: 0 | 1, newDateTakeOnWork: string, newDateBirthday: string, role: string, newEmail: string, newPassword: string, sendPassword: 1 | 0, isActive?: 1 | 0, cityName?: string, attribute?: string ) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editWorker`)
                 .set(requestHeader)
-                .send(`user_id=${userId}&first_name=${userName}&last_name=${userSecondName}&org_structure_level_id=${orgstructureId}&position=${jobName}&is_forced_teacher=${isTeacher}&is_expert=${isExpert}&date_take_on_work=${dateTakeOnWork}&date_birthday=${dateBirthday}&city_name=${cityName}&attribute=${attribute}&role=${role}&active=${isActive}&email=${email}&is_new_psw=1&password=${password}&password2=${password}&is_send_new_psw=${sendPassword}&ci_csrf_token=`);
+                .send(`user_id=${userId}&first_name=${newUserName}&last_name=${newUserSecondName}&org_structure_level_id=${newOrgstructureId}&position=${newJobName}&is_forced_teacher=${isTeacher}&is_expert=${isExpert}&date_take_on_work=${newDateTakeOnWork}&date_birthday=${newDateBirthday}&city_name=${cityName}&attribute=${attribute}&role=${role}&active=${isActive}&email=${newEmail}&is_new_psw=1&password=${newPassword}&password2=${newPassword}&is_send_new_psw=${sendPassword}&ci_csrf_token=`);
         } catch (error: any) {
             console.error('Something went wrong in editUserManagerRequest');
             throw new Error(error.message);
