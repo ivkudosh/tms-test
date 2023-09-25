@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "api:test:mile": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
+    "api:test:smile": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
     "api:test:smile:load": "rm -rf src/api/assets && cross-env test_env=test-smile-load jest --config='./src/api/jest.config.js'",
     "api:test:fesco": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
     "ui:test:fesco": "rm -rf src/ui/assets/allure-results-test-fesco && rm -rf src/ui/assets/allure-report-test-fesco && cross-env test_env=test-fesco playwright test --config=./src/ui/config/playwright.config.ts",

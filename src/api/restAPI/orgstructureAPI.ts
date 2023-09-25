@@ -3,7 +3,6 @@ import { requestHeader } from "../helpers/constants";
 import { BaseAPI } from "./baseAPI";
 
 export class OrgstructureAPI extends BaseAPI {
-
     createOrgstructureRequest = (orgstructureName: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/addOrgStructure`)

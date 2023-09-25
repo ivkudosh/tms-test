@@ -3,7 +3,6 @@ import { requestHeader } from "../helpers/constants";
 import { BaseAPI } from "./baseAPI";
 
 export class GroupsAPI extends BaseAPI {
-
     createGlobalGroupRequest = (groupName: string, userId: string, orgstructureId: string) => {
         try {
             return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editSpeciality`)
@@ -40,6 +39,16 @@ export class GroupsAPI extends BaseAPI {
             .send(`ci_csrf_token=&speciality_id=${groupId}&type=function&speciality=${newGroupName}&role%5B1%5D%5B%5D=${userModeratorId}&chat_mod_descr=&structure=%5B${orgstructureId}%5D&select-always-structure=%5B%5D&days_from=&days_before=`);
         } catch (error: any) {
             console.error('Something went wrong in editGlobalGroupRequest');
+            throw new Error(error.message);
+        }
+    };
+
+    deleteGlobalGroupRequest = (groupId: string) => {
+        try {
+            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/deleteSpeciality`)
+            .send(`ci_csrf_token=&specialities%5B%5D=${groupId}`);
+        } catch (error: any) {
+            console.error('Something went wrong in deleteGlobalGroupRequest');
             throw new Error(error.message);
         }
     };

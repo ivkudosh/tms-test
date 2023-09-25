@@ -25,13 +25,12 @@ describe("Группы", () => {
     let userModeratorModalResponse: Response;
     let globalGroupSearchResponse: Response;
 
-
     let orgstructureId: string;
     let jobName: string;
     let jobId: string;
     let userModeratorId: string;
-    let userModeratorPersonId: string;
     let groupId: string;
+    let deletedUserManagerId: string;
 
     const orgstructureRandomName = generateOrgstructureName();
     const groupRandomName = generateGroupName();
@@ -73,7 +72,6 @@ describe("Группы", () => {
         expect(globalGroupCreationResponse.status).toBe(200);
         expect(globalGroupCreationResponse.text).toContain(groupRandomName);
     });
-
     
     test(`Проверка созданной глобальной группы`, async () => {
         const globalGroupResponse = await groupsAPI.getGlobalGroupRequest();
@@ -97,10 +95,35 @@ describe("Группы", () => {
         expect(editGlobalGroupResponse.text).toContain(userRandomFirstName);
     });
 
+    test(`Удаление глобальной группы`, async () => {
+        const deletedUserRandomFirstName = generateFirstName();
+        const deletedUserRandomSecondName = generateLastName();
+        const deletedDateWork = generateDate();
+        const deletedDateBirthday = generateDate();
+        const deletedUserRandomEmail = generateEmail({provider: "knomary.com"});
+        const deletedUserRandomPassword = generateCustomPassword();
+        const deletedGroupRandomName = generateGroupName();
+        
+        await userAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, 1, 1, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword, 0);
+        const deletedUserManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
+        deletedUserManagerId = getUserIdFromResponse(deletedUserManagerSearchResponse);
+
+        await groupsAPI.createGlobalGroupRequest(deletedGroupRandomName, deletedUserManagerId, orgstructureId);
+        const deletedGlobalGroupSearchResponse = await groupsAPI.getGlobalGroupWithSearchRequest(deletedUserManagerId);
+        const deletedGroupId = getGroupIdFromResponse(deletedGlobalGroupSearchResponse, deletedGroupRandomName); 
+
+        const deleteGlobalGroupResponse = await groupsAPI.deleteGlobalGroupRequest(deletedGroupId);
+
+        expect(deleteGlobalGroupResponse.status).toBe(200);
+        expect(deleteGlobalGroupResponse.text).not.toContain(deletedGroupRandomName);
+    });
+
     afterAll(async () => {
         await jobAPI.deleteJobRequest(jobId);
         await orgstructureAPI.deleteOrgstructureRequest(orgstructureId);
         await userAPI.deleteUserManagerRequest(userModeratorId);
+        await userAPI.deleteUserManagerRequest(deletedUserManagerId);
+        await groupsAPI.deleteGlobalGroupRequest(groupId);
         await authorizationAPI.logoutAuthorizationRequest();
     });
 });

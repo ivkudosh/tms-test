@@ -2,7 +2,6 @@ import ENV from "../../../env/env";
 import { BaseAPI } from "./baseAPI";
 
 export class AuthorizationAPI extends BaseAPI {
-
     gotoAuthorizationPageRequest = () => {
         try {
             return this.superagent.get(`${ENV.BASE_URL}/auth/login`);

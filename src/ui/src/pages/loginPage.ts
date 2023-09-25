@@ -2,7 +2,6 @@ import { Locator, Page } from "@playwright/test";
 import ENV from "../../../../env/env";
 import { BasePage } from "./basePage";
 
-
 export class LoginPage extends BasePage {
     public readonly emailField: Locator;
     private readonly passwordField: Locator;
