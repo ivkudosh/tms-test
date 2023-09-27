@@ -20,6 +20,7 @@ describe("Должность", () => {
     beforeAll(async () => {
         try {
             await authorizationAPI.enterCredentialsRequest(ENV.ADMIN_MAIL, ENV.MASTER_PASSWORD);
+            
             jobCreationResponse = await jobAPI.createJobRequest(jobRandomName);
             const jobResponse = await jobAPI.getJobRequest();
             jobId = getJobIdFromResponse(jobResponse, jobRandomName);

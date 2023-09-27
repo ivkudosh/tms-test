@@ -20,6 +20,8 @@ describe("Сотрудник/Руководитель", () => {
     let userManagerCreationResponse: Response;
     let userManagerSearchResponse: Response;
     let userManagerModalResponse: Response;
+    let userEmployeeCreationResponse: Response;
+    let userEmployeeSearchResponse: Response;
 
     let orgstructureId: string;
     let jobName: string;
@@ -30,12 +32,34 @@ describe("Сотрудник/Руководитель", () => {
 
     const orgstructureRandomName = generateOrgstructureName();
     const jobRandomName = generateJobName();
-    const userRandomFirstName = generateFirstName();
-    const userRandomSecondName = generateLastName();
-    const dateWork = generateDate();
-    const dateBirthday = generateDate();
-    const userRandomEmail = generateEmail({provider: "knomary.com"});
-    const userRandomPassword = generateCustomPassword();
+    
+    const userManagerRandomFirstName = generateFirstName();
+    const userManagerRandomSecondName = generateLastName();
+    const userManagerDateWork = generateDate();
+    const userManagerDateBirthday = generateDate();
+    const userManagerRandomEmail = generateEmail({provider: "knomary.com"});
+    const userManagerRandomPassword = generateCustomPassword();
+
+    const userEmployeeRandomFirstName = generateFirstName();
+    const userEmployeeRandomSecondName = generateLastName();
+    const userEmployeeDateWork = generateDate();
+    const userEmployeeDateBirthday = generateDate();
+    const userEmployeeRandomEmail = generateEmail({provider: "knomary.com"});
+    const userEmployeeRandomPassword = generateCustomPassword();
+
+    const editedUserManagerRandomFirstName = generateFirstName();
+    const editedUserManagerRandomSecondName = generateLastName();
+    const editedUserManagerDateWork = generateDate();
+    const editedUserManagerDateBirthday = generateDate();
+    const editedUserManagerRandomEmail = generateEmail({provider: "knomary.com"});
+    const editedUserManagerRandomPassword = generateCustomPassword();
+
+    const deletedUserManagerRandomFirstName = generateFirstName();
+    const deletedUserManagerRandomSecondName = generateLastName();
+    const deletedUserManagerDateWork = generateDate();
+    const deletedUserManagerDateBirthday = generateDate();
+    const deletedUserManagerRandomEmail = generateEmail({provider: "knomary.com"});
+    const deletedUserManagerRandomPassword = generateCustomPassword();
 
     beforeAll(async() => {
         try {
@@ -50,12 +74,15 @@ describe("Сотрудник/Руководитель", () => {
             const orgstructureResponse = await orgstructureAPI.getOrgstructureRequest();
             orgstructureId = getOrgstructureIdFromResponse(orgstructureResponse, orgstructureRandomName);
 
-            userManagerCreationResponse = await userAPI.createUserManagerRequest(userRandomFirstName, userRandomSecondName, orgstructureId, jobName, 1, 1, dateWork, dateBirthday, employeeRole, userRandomEmail, userRandomPassword, 1);
-            userManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(userRandomEmail);
+            userManagerCreationResponse = await userAPI.createUserManagerRequest(userManagerRandomFirstName, userManagerRandomSecondName, orgstructureId, jobName, 1, 1, userManagerDateWork, userManagerDateBirthday, employeeRole, userManagerRandomEmail, userManagerRandomPassword, 1);
+            userManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(userManagerRandomEmail);
             userManagerId = getUserIdFromResponse(userManagerSearchResponse);
-
             userManagerModalResponse = await userAPI.getUserManagerModalRequest(userManagerId);
-            userManagerPersonId = getUserPersonIdModalFromResponse(userManagerModalResponse);            
+            userManagerPersonId = getUserPersonIdModalFromResponse(userManagerModalResponse);
+
+            userEmployeeCreationResponse = await userAPI.createUserManagerRequest(userEmployeeRandomFirstName, userEmployeeRandomSecondName, orgstructureId, jobName, 1, 1, userEmployeeDateWork, userEmployeeDateBirthday, employeeRole, userEmployeeRandomEmail, userEmployeeRandomPassword, 1, userManagerPersonId); //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
+            userEmployeeSearchResponse = await userAPI.getUserManagerWithSearchRequest(userEmployeeRandomEmail);
+            userEmployeeId = getUserIdFromResponse(userEmployeeSearchResponse);
         } catch (error: any) {
             throw new Error(error.message);
         }
@@ -63,80 +90,56 @@ describe("Сотрудник/Руководитель", () => {
 
     test(`Создание руководителя`, async () => {
         expect(userManagerCreationResponse.status).toBe(200);
-        expect(JSON.parse(userManagerCreationResponse.text).success).toBe(`Пользователь ${userRandomEmail} успешно добавлен`);
+        expect(JSON.parse(userManagerCreationResponse.text).success).toBe(`Пользователь ${userManagerRandomEmail} успешно добавлен`);
     });
 
     test(`Проверка созданного руководителя`, async () => {
         const userManagerResponse = await userAPI.getUserManagerRequest();
 
         expect(userManagerResponse.status).toBe(200);
-        expect(userManagerResponse.text).toContain(userRandomEmail);
+        expect(userManagerResponse.text).toContain(userManagerRandomEmail);
     });
 
     test(`Проверка созданного руководителя через поиск`, async () => {
         expect(userManagerSearchResponse.status).toBe(200);
-        expect(userManagerSearchResponse.text).toContain(userRandomEmail);
+        expect(userManagerSearchResponse.text).toContain(userManagerRandomEmail);
     });
 
     test(`Открытие формы редактирования руководителя`, async () => {
         const userManagerResponse = await userAPI.getUserManagerModalRequest(userManagerId);
 
         expect(userManagerResponse.status).toBe(200);
-        expect(userManagerResponse.text).toContain(userRandomEmail);
+        expect(userManagerResponse.text).toContain(userManagerRandomEmail);
     });
 
     test(`Проверка внутреннего идентификатора (person_id) созданного руководителя в модальном окне администратора `, async () => {
         const userManagerResponse = await userAPI.getUserManagerPersonIdFromAdminModalRequest();
 
         expect(userManagerResponse.status).toBe(200);
-        expect(userManagerResponse.text).toContain(`${userRandomSecondName}`);
+        expect(userManagerResponse.text).toContain(`${userManagerRandomSecondName}`);
     });
 
     test(`Редактирование руководителя`, async () => {
-        const editedUserManagerRandomEmail = generateEmail({provider: "knomary.com"});
-        const editedUserManagerRandomFirstName = generateFirstName();
-        const editedUserManagerRandomSecondName = generateLastName();
-        const editedDateWork = generateDate();
-        const editedDateBirthday = generateDate();
-        const editedUserManagerRandomPassword = generateCustomPassword();
-        const editUserManagerResponse = await userAPI.editUserManagerRequest(userManagerId, editedUserManagerRandomFirstName, editedUserManagerRandomSecondName, orgstructureId, jobName,  1, 1, editedDateWork, editedDateBirthday, employeeRole, editedUserManagerRandomEmail, editedUserManagerRandomPassword, 0);
+        const editUserManagerResponse = await userAPI.editUserManagerRequest(userManagerId, editedUserManagerRandomFirstName, editedUserManagerRandomSecondName, orgstructureId, jobName,  1, 1, editedUserManagerDateWork, editedUserManagerDateBirthday, employeeRole, editedUserManagerRandomEmail, editedUserManagerRandomPassword, 0);
 
         expect(editUserManagerResponse.status).toBe(200);
         expect(JSON.parse(editUserManagerResponse.text).success).toBe("Данные успешно сохранены");
     });
 
     test(`Создание сотрудника с присвоенным ему руководителям`, async () => {
-        const userEmployeeRandomFirstName = generateFirstName();
-        const userEmployeeRandomSecondName = generateLastName();
-        const employeeDateWork = generateDate();
-        const employeeDateBirthday = generateDate();
-        const userEmployeeRandomEmail = generateEmail({provider: "knomary.com"});
-        const userEmployeeRandomPassword = generateCustomPassword();
-        
-        const userEmployeeCreationResponse = await userAPI.createUserManagerRequest(userEmployeeRandomFirstName, userEmployeeRandomSecondName, orgstructureId, jobName, 1, 1, employeeDateWork, employeeDateBirthday, employeeRole, userEmployeeRandomEmail, userEmployeeRandomPassword, 1, userManagerPersonId); //Указываем в userManagerPersonId id сотрудника, у которого есть роль "Руководитель"
-        const userEmployeeSearchResponse = await userAPI.getUserManagerWithSearchRequest(userEmployeeRandomEmail);
-        userEmployeeId = getUserIdFromResponse(userEmployeeSearchResponse);
-
         expect(userEmployeeCreationResponse.status).toBe(200);
         expect(JSON.parse(userEmployeeCreationResponse.text).success).toBe(`Пользователь ${userEmployeeRandomEmail} успешно добавлен`);
     });
 
     test(`Удаление руководителя`, async () => { 
-        const deletedUserRandomFirstName = generateFirstName();
-        const deletedUserRandomSecondName = generateLastName();
-        const deletedDateWork = generateDate();
-        const deletedDateBirthday = generateDate();
-        const deletedUserRandomEmail = generateEmail({provider: "knomary.com"});
-        const deletedUserRandomPassword = generateCustomPassword();
+        await userAPI.createUserManagerRequest(deletedUserManagerRandomFirstName, deletedUserManagerRandomSecondName, orgstructureId, jobName, 1, 1, deletedUserManagerDateWork, deletedUserManagerDateBirthday, employeeRole, deletedUserManagerRandomEmail, deletedUserManagerRandomPassword, 1);
+        const userManagerForDeleteSearchResponse = await userAPI.getUserManagerWithSearchRequest(deletedUserManagerRandomEmail);
+        const userManagerIdForDelete = getUserIdFromResponse(userManagerForDeleteSearchResponse);
 
-        await userAPI.createUserManagerRequest(deletedUserRandomFirstName, deletedUserRandomSecondName, orgstructureId, jobName, 1, 1, deletedDateWork, deletedDateBirthday, employeeRole, deletedUserRandomEmail, deletedUserRandomPassword, 1);
-        const userManagerSearchResponse = await userAPI.getUserManagerWithSearchRequest(deletedUserRandomEmail);
-        const userManagerId = getUserIdFromResponse(userManagerSearchResponse);
-
-        const deletedUserManagerResponse = await userAPI.deleteUserManagerRequest(userManagerId);
+        const deletedUserManagerResponse = await userAPI.deleteUserManagerRequest(userManagerIdForDelete);
 
         expect(deletedUserManagerResponse.status).toBe(200);
-        expect(deletedUserManagerResponse.text).not.toContain(deletedUserRandomEmail);
+        expect(deletedUserManagerResponse.text).not.toContain(deletedUserManagerRandomEmail);
     });
 
     afterAll(async () => {
@@ -157,12 +160,12 @@ describe.skip("(Отключен) Создание большого количе
         }
     });
     
-    for (let i = 0; i < 1; i++) { //Выбрать количество прогонов теста
+    for (let i = 0; i < 1; i++) { //Вместо 1 выбрать количество прогонов теста
         test.skip(`Создание пользователя № ${i + 1}`, async () => { // Убрать метод .skip и установить .only если нужно создать много пользователей
-            const randomDateWork = generateDate();
-            const randomDateBirthday = generateDate();
+            const randomuserManagerDateWork = generateDate();
+            const randomuserManagerDateBirthday = generateDate();
             
-            const usersCreationsResponse = await userAPI.createUserManagerRequest(`User-${i + 1}`, "Test", '16446', 'Грузчик', 0, 0, randomDateWork, randomDateBirthday, employeeRole, (i + 1) + '-test-knomary@knomary.com', '12345678', 0); //Грузчик - должность, которая есть в системе. 16446 - id оргстуктуры, которая есть в системе
+            const usersCreationsResponse = await userAPI.createUserManagerRequest(`User-${i + 1}`, "Test", '16446', 'Грузчик', 0, 0, randomuserManagerDateWork, randomuserManagerDateBirthday, employeeRole, (i + 1) + '-test-knomary@knomary.com', '12345678', 0); //Грузчик - должность, которая есть в системе. 16446 - id оргстуктуры, которая есть в системе
             
             expect(usersCreationsResponse.status).toBe(200);
             expect(JSON.parse(usersCreationsResponse.text).success).toBe(`Пользователь ${i + 1}-test-knomary@knomary.com успешно добавлен`);
