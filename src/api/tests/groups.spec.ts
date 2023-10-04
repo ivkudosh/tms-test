@@ -2,7 +2,7 @@ import { expect } from "@jest/globals";
 import request, { Response } from "superagent";
 import ENV from "../../../env/env";
 import { employeeRole } from "../helpers/constants";
-import { generateCustomPassword, generateDate, generateEmail, generateFirstName, generateGroupName, generateJobName, generateLastName, generateOrgstructureName } from "../helpers/randoms";
+import { generateCustomPassword, generateDate, generateEmail, generateFirstName, generateGlobalGroupName, generateJobName, generateLastName, generateLocalGroupName, generateOrgstructureName } from "../helpers/randoms";
 import { getGroupIdFromResponse, getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
 import { GroupsAPI } from "../restAPI/groupsAPI";
@@ -38,11 +38,12 @@ describe("Группы", () => {
     const orgstructureRandomName = generateOrgstructureName();
     const jobRandomName = generateJobName();
 
-    const globalGroupRandomName = generateGroupName();
-    const localGroupRandomName = generateGroupName();
-    const editedGlobalGroupRandomName = generateGroupName();
-    const deletedGlobalGroupRandomName = generateGroupName();
-    
+    const globalGroupRandomName = generateGlobalGroupName();
+    const localGroupRandomName = generateLocalGroupName();
+    const editedGlobalGroupRandomName = generateGlobalGroupName();
+    const editedLocalGroupRandomName = generateLocalGroupName();
+    const deletedGlobalGroupRandomName = generateGlobalGroupName();
+
     const userRandomFirstName = generateFirstName();
     const userRandomSecondName = generateLastName();
     const userDateWork = generateDate();
@@ -132,6 +133,13 @@ describe("Группы", () => {
         expect(editGlobalGroupResponse.status).toBe(200);
         expect(editGlobalGroupResponse.text).toContain(editedGlobalGroupRandomName);
         expect(editGlobalGroupResponse.text).toContain(userRandomFirstName);
+    });
+
+    test(`Редактирование локальной группы`, async () => {     
+        const editLocalGroupResponse = await groupsAPI.editLocalGroupRequest(localGroupId, editedLocalGroupRandomName, globalGroupId, jobName, 3, 3);
+
+        expect(editLocalGroupResponse.status).toBe(200);
+        expect(editLocalGroupResponse.text).toContain(editedLocalGroupRandomName);
     });
 
     test(`Удаление глобальной группы`, async () => {

@@ -7,7 +7,7 @@ module.exports = {
     reporters: [
         "default", [
             "jest-html-reporter", {
-                "outputPath": `assets/api-reports/api-tests-report-${process.env.test_env || 'test-main-test'}.html`,
+                "outputPath": `assets/api-reports/api-report-${process.env.test_env || 'tms-main-test'}.html`,
                 "pageTitle": "API Tests",
                 "includeFailureMsg": true
             }

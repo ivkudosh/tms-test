@@ -63,6 +63,16 @@ export class GroupsAPI extends BaseAPI {
             throw new Error(error.message);
         }
     };
+    
+    editLocalGroupRequest = (groupId: string, newGroupName: string, parentGroupId: string, jobName: string, daysBefore: number, daysAfter: number) => {
+        try {
+            return this.superagent.post(`${ENV.BASE_URL}/admin/kpi/structure/editSpeciality`)
+            .send(`i_csrf_token=&speciality_id=${groupId}&type=dynamic&speciality=${newGroupName}&chat_mod_descr=&follow%5B%5D=${parentGroupId}&structure=&select-always-structure=%5B%5D&position%5B%5D=${jobName}&days_from=${daysAfter}&days_before=${daysBefore}`);
+        } catch (error: any) {
+            console.error('Something went wrong in editLocalGroupRequest');
+            throw new Error(error.message);
+        }
+    };
 
     deleteGroupRequest = (groupId: string) => {
         try {
