@@ -4,13 +4,17 @@ module.exports = {
     testEnvironment: 'node',
     globalSetup: '../../env/globalSetup.ts',
     testTimeout: 60000,
+    maxWorkers: 5,
     reporters: [
-        "default", [
-            "jest-html-reporter", {
-                "outputPath": `assets/api-reports/api-report-${process.env.test_env || 'tms-main-test'}.html`,
-                "pageTitle": "API Tests",
-                "includeFailureMsg": true
-            }
-        ],
-    ],
+        "default",
+        ["jest-html-reporters", {
+            "publicPath": `assets/api-report-${process.env.test_env || 'tms-main-test'}`,
+            "filename": `api-report-${process.env.test_env || 'tms-main-test'}.html`,
+            "openReport": true,
+            "pageTitle": `API Report: ${process.env.test_env || 'tms-main-test'}`,
+            "darkTheme": true,
+            "hideIcon": true,
+            "logoImgPath": './src/api/img/logo.png'
+        }]
+    ]
 };

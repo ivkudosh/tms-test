@@ -43,6 +43,7 @@ describe("Группы", () => {
     const editedGlobalGroupRandomName = generateGlobalGroupName();
     const editedLocalGroupRandomName = generateLocalGroupName();
     const deletedGlobalGroupRandomName = generateGlobalGroupName();
+    const deletedLocalGroupRandomName = generateGlobalGroupName();
 
     const userRandomFirstName = generateFirstName();
     const userRandomSecondName = generateLastName();
@@ -82,7 +83,7 @@ describe("Группы", () => {
             globalGroupCreationResponse = await groupsAPI.createGlobalGroupRequest(globalGroupRandomName, userModeratorId, orgstructureId);
             globalGroupSearchResponse = await groupsAPI.getGlobalGroupWithSearchRequest(userModeratorId);
             globalGroupId = getGroupIdFromResponse(globalGroupSearchResponse, globalGroupRandomName);
-            
+
             localGroupCreationResponse = await groupsAPI.createLocalGroupRequest(localGroupRandomName, globalGroupId, orgstructureId, jobName, 2, 2, userModeratorId);
             localGroupSearchResponse = await groupsAPI.getLocalGroupWithSearchRequest(globalGroupId);
             localGroupId = getGroupIdFromResponse(localGroupSearchResponse, localGroupRandomName);
@@ -99,6 +100,11 @@ describe("Группы", () => {
     test(`Создание локальной группы`, async () => {
         expect(localGroupCreationResponse.status).toBe(200);
         expect(localGroupCreationResponse.text).toContain(localGroupRandomName);
+    });
+
+    test(`Создание модератора глобальной группы`, async () => {
+        expect(userModeratorCreationResponse.status).toBe(200);
+        expect(JSON.parse(userModeratorCreationResponse.text).success).toBe(`Пользователь ${userRandomEmail} успешно добавлен`);
     });
     
     test(`Проверка созданной глобальной группы`, async () => {
@@ -145,20 +151,31 @@ describe("Группы", () => {
     test(`Удаление глобальной группы`, async () => {
         await groupsAPI.createGlobalGroupRequest(deletedGlobalGroupRandomName, userModeratorIdForDelete, orgstructureId);
         const deletedGlobalGroupSearchResponse = await groupsAPI.getGlobalGroupWithSearchRequest(userModeratorIdForDelete);
-        const deletedGroupId = getGroupIdFromResponse(deletedGlobalGroupSearchResponse, deletedGlobalGroupRandomName); 
+        const deletedGlobalGroupId = getGroupIdFromResponse(deletedGlobalGroupSearchResponse, deletedGlobalGroupRandomName); 
 
-        const deleteGlobalGroupResponse = await groupsAPI.deleteGroupRequest(deletedGroupId);
+        const deleteGlobalGroupResponse = await groupsAPI.deleteGroupRequest(deletedGlobalGroupId);
 
         expect(deleteGlobalGroupResponse.status).toBe(200);
         expect(deleteGlobalGroupResponse.text).not.toContain(deletedGlobalGroupRandomName);
     });
 
+    test(`Удаление локальной группы`, async () => {
+        await groupsAPI.createLocalGroupRequest(deletedLocalGroupRandomName, globalGroupId, orgstructureId, jobName, 2, 2, userModeratorId);
+        const deletedLocalGroupSearchResponse = await groupsAPI.getLocalGroupWithSearchRequest(globalGroupId);
+        const deletedLocalGroupId = getGroupIdFromResponse(deletedLocalGroupSearchResponse, deletedLocalGroupRandomName); 
+
+        const deleteLocalGroupResponse = await groupsAPI.deleteGroupRequest(deletedLocalGroupId);
+
+        expect(deleteLocalGroupResponse.status).toBe(200);
+        expect(deleteLocalGroupResponse.text).not.toContain(deletedLocalGroupRandomName);
+    });
+
     afterAll(async () => {
+        await groupsAPI.deleteGroupRequest(localGroupId);
         await jobAPI.deleteJobRequest(jobId);
         await orgstructureAPI.deleteOrgstructureRequest(orgstructureId);
         await userAPI.deleteUserManagerRequest(userModeratorId);
         await userAPI.deleteUserManagerRequest(userModeratorIdForDelete);
-        await groupsAPI.deleteGroupRequest(localGroupId);
         await groupsAPI.deleteGroupRequest(globalGroupId);
         await authorizationAPI.logoutAuthorizationRequest();
     });

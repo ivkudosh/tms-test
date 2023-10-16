@@ -22,8 +22,8 @@ export const generateCustomPassword = () => {
 
 const getRandomInteger = (min: number, max: number) => Math.floor(Math.random() * (max - min) + min);
 
-export const generateOrgstructureName = faker.company.buzzVerb;
-export const generateGlobalGroupName = faker.commerce.department;
+export const generateOrgstructureName = faker.company.buzzNoun;
+export const generateGlobalGroupName = faker.commerce.productMaterial;
 export const generateLocalGroupName = faker.commerce.department;
 
 export const generateJobName = faker.person.jobType;

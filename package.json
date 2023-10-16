@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "api:test:smile": "rm -rf src/api/assets && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
-    "api:test:smile:load": "rm -rf src/api/assets && cross-env test_env=test-smile-load jest --config='./src/api/jest.config.js'",
-    "api:test:fesco": "rm -rf src/api/assets && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
-    "ui:test:fesco": "rm -rf src/ui/assets/allure-results-test-fesco && rm -rf src/ui/assets/allure-report-test-fesco && cross-env test_env=test-fesco playwright test --config=./src/ui/config/playwright.config.ts",
-    "ui:test:fesco:allure-report": "allure generate src/ui/assets/allure-results-test-fesco --clean -o src/ui/assets/allure-report-test-fesco && allure open src/ui/assets/allure-report-test-fesco",
-    "ui:test:fesco:playwright-report": "npx playwright show-report src/ui/assets/playwright-report-test-fesco",
+    "api:test:smile": "rm -rf assets/api-report-test-smile && cross-env test_env=test-smile jest --config='./src/api/jest.config.js'",
+    "api:test:smile:load": "rm -rf assets/api-report-test-smile-load && cross-env test_env=test-smile-load jest --config='./src/api/jest.config.js'",
+    "api:test:fesco": "rm -rf assets/api-report-test-fesco && cross-env test_env=test-fesco jest --config='./src/api/jest.config.js'",
+    "ui:test:fesco": "rm -rf assets/ui-report-test-fesco/allure-results-test-fesco && rm -rf assets/ui-report-test-fesco/allure-report-test-fesco && cross-env test_env=test-fesco playwright test --config=./src/ui/config/playwright.config.ts",
+    "ui:test:fesco:allure-report": "allure generate assets/ui-report-test-fesco/allure-results-test-fesco --clean -o assets/ui-report-test-fesco/allure-report-test-fesco && allure open assets/ui-report-test-fesco/allure-report-test-fesco",
+    "ui:test:fesco:playwright-report": "npx playwright show-report assets/ui-report-test-fesco/playwright-report-test-fesco",
     "ui:features:prod": "rm -rf src/ui/assets/allure-results-tms-features && rm -rf src/ui/assets/allure-report-tms-features && cross-env test_env=tms-features playwright test --config=./src/ui/config/playwright.config.ts",
     "ui:features:prod:report": "allure generate src/ui/assets/allure-results-tms-features --clean -o src/ui/assets/allure-report-tms-features && allure open src/ui/assets/allure-report-tms-features"
   },
@@ -32,7 +32,6 @@
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "jest": "^29.5.0",
-    "jest-html-reporter": "^3.9.0",
     "superagent": "^8.0.9",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
@@ -44,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "cross-env": "^7.0.3",
-    "eslint": "^8.39.0"
+    "eslint": "^8.39.0",
+    "jest-html-reporters": "^3.1.4"
   }
 }

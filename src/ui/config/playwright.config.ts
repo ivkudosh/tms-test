@@ -24,9 +24,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { open: 'never', outputFolder: `../assets/playwright-report-${process.env.test_env || 'tms-main-test'}`, outputFile: `html-report-${process.env.test_env || 'tms-main-test'}` }],
-  ['allure-playwright', { detail: true, outputFolder: `./src/ui/assets/allure-results-${process.env.test_env || 'tms-main-test'}` }]],
-  outputDir: `../assets/playwright-results-${process.env.test_env || 'tms-main-test'}`,
+  reporter: [['html', { open: 'never', outputFolder: `../../../assets/ui-report-${process.env.test_env || 'tms-main-test'}/playwright-report-${process.env.test_env || 'tms-main-test'}`, outputFile: `html-report-${process.env.test_env || 'tms-main-test'}` }],
+  ['allure-playwright', { detail: true, outputFolder: `./assets/ui-report-${process.env.test_env || 'tms-main-test'}/allure-results-${process.env.test_env || 'tms-main-test'}` }]],
+  outputDir: `../../../assets/ui-report-${process.env.test_env || 'tms-main-test'}/playwright-results-${process.env.test_env || 'tms-main-test'}`,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
