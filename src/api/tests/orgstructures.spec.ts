@@ -4,7 +4,7 @@ import ENV from "../../../env/env";
 import { generateOrgstructureName } from "../helpers/randoms";
 import { getOrgstructureIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
-import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructuresAPI";
 
 const superagent = request.agent();
 

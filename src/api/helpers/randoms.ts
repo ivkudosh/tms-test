@@ -29,10 +29,12 @@ export const generateLocalGroupName = faker.commerce.department;
 export const generateJobName = faker.person.jobType;
 
 export const generateFirstName = faker.person.firstName;
-export const generateLastName = faker.person.lastName;
+export const generateLastName = faker.person.middleName;
 
 export const generateEmail = faker.internet.email;
 export const generatePassword = generateCustomPassword;
+
+export const generateFormName = faker.word.adjective;
 
 export const generateDate = () => {
     return faker.date.between({ from: '1950-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z' }).toLocaleDateString().replace(/\./g, '/');

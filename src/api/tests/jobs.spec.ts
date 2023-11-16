@@ -4,7 +4,7 @@ import ENV from "../../../env/env";
 import { generateJobName } from "../helpers/randoms";
 import { getJobIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
-import { JobAPI } from "../restAPI/jobAPI";
+import { JobAPI } from "../restAPI/jobsAPI";
 
 const superagent = request.agent();
 

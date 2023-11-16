@@ -6,9 +6,9 @@ import { generateCustomPassword, generateDate, generateEmail, generateFirstName,
 import { getGroupIdFromResponse, getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserIdFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
 import { GroupsAPI } from "../restAPI/groupsAPI";
-import { JobAPI } from "../restAPI/jobAPI";
-import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
-import { UserAPI } from "../restAPI/userAPI";
+import { JobAPI } from "../restAPI/jobsAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructuresAPI";
+import { UserAPI } from "../restAPI/usersAPI";
 
 const superagent = request.agent();
 

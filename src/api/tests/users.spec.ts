@@ -5,9 +5,9 @@ import { employeeRole } from "../helpers/constants";
 import { generateCustomPassword, generateDate, generateEmail, generateFirstName, generateJobName, generateLastName, generateOrgstructureName } from "../helpers/randoms";
 import { getJobIdFromResponse, getJobNameFromResponse, getOrgstructureIdFromResponse, getUserIdFromResponse, getUserPersonIdModalFromResponse } from "../helpers/utils";
 import { AuthorizationAPI } from "../restAPI/authorizationAPI";
-import { JobAPI } from "../restAPI/jobAPI";
-import { OrgstructureAPI } from "../restAPI/orgstructureAPI";
-import { UserAPI } from "../restAPI/userAPI";
+import { JobAPI } from "../restAPI/jobsAPI";
+import { OrgstructureAPI } from "../restAPI/orgstructuresAPI";
+import { UserAPI } from "../restAPI/usersAPI";
 
 const superagent = request.agent();
 

@@ -4,7 +4,7 @@ module.exports = {
     testEnvironment: 'node',
     globalSetup: '../../env/globalSetup.ts',
     testTimeout: 60000,
-    maxWorkers: 5,
+    maxWorkers: 1,
     reporters: [
         "default",
         ["jest-html-reporters", {
